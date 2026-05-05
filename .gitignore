@@ -1,0 +1,23 @@
+# IDE
+.idea/*
+.vscode/*
+.vs/*
+
+# build
+build/*
+out/*
+install/*
+cmake-build-*/*
+packages/*
+CMakeUserPresets.json
+
+# publish
+.backup/*
+
+# cache
+LuaSTG/backup/*
+LuaSTG/custom/*
+DirectX/DirectXSDK/backup/*
+
+# AI
+/.claude/

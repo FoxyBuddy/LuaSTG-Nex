@@ -1,0 +1,21 @@
+[submodule "imgui/imgui"]
+	path = imgui/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "imgui/implot"]
+	path = imgui/implot
+	url = https://github.com/epezent/implot.git
+[submodule "external/xmath"]
+	path = external/xmath
+	url = https://github.com/Legacy-LuaSTG-Engine/lstgx_Math.git
+[submodule "external/lua-cjson"]
+	path = external/lua-cjson
+	url = https://github.com/openresty/lua-cjson.git
+[submodule "external/image.qoi"]
+	path = external/image.qoi
+	url = https://github.com/phoboslab/qoi.git
+[submodule "external/luajit2"]
+	path = external/luajit2
+	url = https://github.com/Legacy-LuaSTG-Engine/LuaSTG-Sub-LuaJIT.git
+[submodule "external/beautiful-win32-api"]
+	path = external/beautiful-win32-api
+	url = https://github.com/Demonese/beautiful-win32-api

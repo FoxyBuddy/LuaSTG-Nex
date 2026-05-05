@@ -1,0 +1,20 @@
+*.[oa]
+*.so
+*.obj
+*.lib
+*.exp
+*.dll
+*.exe
+*.manifest
+*.dmp
+*.swp
+.tags
+
+# IDE
+/.vscode
+/.vs
+/.idea
+
+# Build
+/build*
+/cmake-build*
