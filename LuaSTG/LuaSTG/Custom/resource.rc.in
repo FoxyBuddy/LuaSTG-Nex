@@ -67,12 +67,12 @@ BEGIN
         BLOCK "000004b0"
         BEGIN
             VALUE "CompanyName", "@LUASTG_ORGNIZATION_NAME@"
-            VALUE "FileDescription", "LuaSTG Sub"
+            VALUE "FileDescription", "LuaSTG Nexus"
             VALUE "FileVersion", "@LUASTG_VERSION_MAJOR@.@LUASTG_VERSION_MINOR@.@LUASTG_VERSION_PATCH@.0"
-            VALUE "InternalName", "LuaSTG Sub"
+            VALUE "InternalName", "LuaSTG Nexus"
             VALUE "LegalCopyright", "Copyright 2020-2026 @LUASTG_ORGNIZATION_NAME@"
-            VALUE "OriginalFilename", "LuaSTGSub.exe"
-            VALUE "ProductName", "LuaSTG Sub"
+            VALUE "OriginalFilename", "LuaSTGNex.exe"
+            VALUE "ProductName", "LuaSTG Nexus"
             VALUE "ProductVersion", "@LUASTG_VERSION_MAJOR@.@LUASTG_VERSION_MINOR@.@LUASTG_VERSION_PATCH@.0"
         END
     END
