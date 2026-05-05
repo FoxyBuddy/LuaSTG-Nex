@@ -2,30 +2,22 @@
   "version": 6,
   "configurePresets": [
     {
-      "name": "vs2022-msvc",
+      "name": "vs2026-msvc",
       "hidden": true,
-      "generator": "Visual Studio 17 2022"
+      "generator": "Visual Studio 18 2026"
     },
     {
-      "name": "vs2022-msvc-x86",
+      "name": "vs2026-msvc-amd64",
       "inherits": [
-        "vs2022-msvc"
-      ],
-      "architecture": "Win32",
-      "binaryDir": "${sourceDir}/build/x86"
-    },
-    {
-      "name": "vs2022-msvc-amd64",
-      "inherits": [
-        "vs2022-msvc"
+        "vs2026-msvc"
       ],
       "architecture": "x64",
       "binaryDir": "${sourceDir}/build/amd64"
     },
     {
-      "name": "vs2022-msvc-arm64",
+      "name": "vs2026-msvc-arm64",
       "inherits": [
-        "vs2022-msvc"
+        "vs2026-msvc"
       ],
       "architecture": "ARM64",
       "binaryDir": "${sourceDir}/build/arm64"
@@ -43,19 +35,14 @@
       "configuration": "Release"
     },
     {
-      "name": "windows-vs2022-msvc-x86",
+      "name": "windows-vs2026-msvc-amd64",
       "hidden": true,
-      "configurePreset": "vs2022-msvc-x86"
+      "configurePreset": "vs2026-msvc-amd64"
     },
     {
-      "name": "windows-vs2022-msvc-amd64",
+      "name": "windows-vs2026-msvc-arm64",
       "hidden": true,
-      "configurePreset": "vs2022-msvc-amd64"
-    },
-    {
-      "name": "windows-vs2022-msvc-arm64",
-      "hidden": true,
-      "configurePreset": "vs2022-msvc-arm64"
+      "configurePreset": "vs2026-msvc-arm64"
     },
     {
       "name": "target-luajit",
@@ -65,49 +52,33 @@
       ]
     },
     {
-      "name": "windows-vs2022-msvc-x86-debug",
+      "name": "windows-vs2026-msvc-amd64-debug",
       "inherits": [
-        "windows-vs2022-msvc-x86",
+        "windows-vs2026-msvc-amd64",
         "debug",
         "target-luajit"
       ]
     },
     {
-      "name": "windows-vs2022-msvc-x86-release",
+      "name": "windows-vs2026-msvc-amd64-release",
       "inherits": [
-        "windows-vs2022-msvc-x86",
+        "windows-vs2026-msvc-amd64",
         "release",
         "target-luajit"
       ]
     },
     {
-      "name": "windows-vs2022-msvc-amd64-debug",
+      "name": "windows-vs2026-msvc-arm64-debug",
       "inherits": [
-        "windows-vs2022-msvc-amd64",
+        "windows-vs2026-msvc-arm64",
         "debug",
         "target-luajit"
       ]
     },
     {
-      "name": "windows-vs2022-msvc-amd64-release",
+      "name": "windows-vs2026-msvc-arm64-release",
       "inherits": [
-        "windows-vs2022-msvc-amd64",
-        "release",
-        "target-luajit"
-      ]
-    },
-    {
-      "name": "windows-vs2022-msvc-arm64-debug",
-      "inherits": [
-        "windows-vs2022-msvc-arm64",
-        "debug",
-        "target-luajit"
-      ]
-    },
-    {
-      "name": "windows-vs2022-msvc-arm64-release",
-      "inherits": [
-        "windows-vs2022-msvc-arm64",
+        "windows-vs2026-msvc-arm64",
         "release",
         "target-luajit"
       ]
@@ -115,41 +86,28 @@
   ],
   "workflowPresets": [
     {
-      "name": "windows-vs2022-msvc-x86-release",
+      "name": "windows-vs2026-msvc-amd64-release",
       "steps": [
         {
           "type": "configure",
-          "name": "vs2022-msvc-x86"
+          "name": "vs2026-msvc-amd64"
         },
         {
           "type": "build",
-          "name": "windows-vs2022-msvc-x86-release"
+          "name": "windows-vs2026-msvc-amd64-release"
         }
       ]
     },
     {
-      "name": "windows-vs2022-msvc-amd64-release",
+      "name": "windows-vs2026-msvc-arm64-release",
       "steps": [
         {
           "type": "configure",
-          "name": "vs2022-msvc-amd64"
+          "name": "vs2026-msvc-arm64"
         },
         {
           "type": "build",
-          "name": "windows-vs2022-msvc-amd64-release"
-        }
-      ]
-    },
-    {
-      "name": "windows-vs2022-msvc-arm64-release",
-      "steps": [
-        {
-          "type": "configure",
-          "name": "vs2022-msvc-arm64"
-        },
-        {
-          "type": "build",
-          "name": "windows-vs2022-msvc-arm64-release"
+          "name": "windows-vs2026-msvc-arm64-release"
         }
       ]
     }
