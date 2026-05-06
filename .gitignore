@@ -21,3 +21,6 @@ DirectX/DirectXSDK/backup/*
 
 # AI
 /.claude/
+
+#obsidian
+/.obsidian/

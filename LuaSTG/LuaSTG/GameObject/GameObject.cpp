@@ -119,11 +119,6 @@ namespace luastg {
 		ax = ay = 0.0;
 		layer = 0.0;
 		hscale = vscale = 1.0;
-	#ifdef USER_SYSTEM_OPERATION
-		max_v = DBL_MAX * 0.5; // 平时应该不会有人弄那么大的速度吧，希望计算时不会溢出（
-		max_vx = max_vy = DBL_MAX;
-		ag = 0.0;
-	#endif
 
 		colli = bound = true;
 		hide = navi = false;
@@ -163,11 +158,6 @@ namespace luastg {
 		ax = ay = 0.;
 		layer = 0.;
 		hscale = vscale = 1.;
-	#ifdef USER_SYSTEM_OPERATION
-		max_v = DBL_MAX * 0.5; // 平时应该不会有人弄那么大的速度吧，希望计算时不会溢出（
-		max_vx = max_vy = DBL_MAX;
-		ag = 0.;
-	#endif
 
 		colli = bound = true;
 		hide = navi = false;
@@ -307,26 +297,7 @@ namespace luastg {
 				// 更新速度
 				vx += ax;
 				vy += ay;
-			#ifdef USER_SYSTEM_OPERATION
-				// 单独应用重力加速度
-				vy -= ag;
-				// 速度限制，来自lua层
-				if (max_v <= DBL_MIN) {
-					vx = 0.0;
-					vy = 0.0;
-				}
-				else {
-					lua_Number const speed_ = std::sqrt(vx * vx + vy * vy);
-					if (max_v < speed_ && speed_ > DBL_MIN) {
-						lua_Number const scale_ = max_v / speed_;
-						vx = scale_ * vx;
-						vy = scale_ * vy;
-					}
-				}
-				//针对x、y方向单独限制
-				vx = std::clamp(vx, -max_vx, max_vx);
-				vy = std::clamp(vy, -max_vy, max_vy);
-			#endif
+
 				x += vx;
 				y += vy;
 			}
@@ -394,26 +365,7 @@ namespace luastg {
 				// 更新速度
 				vx += ax;
 				vy += ay;
-			#ifdef USER_SYSTEM_OPERATION
-				// 单独应用重力加速度
-				vy -= ag;
-				// 速度限制，来自lua层
-				if (max_v <= DBL_MIN) {
-					vx = 0.0;
-					vy = 0.0;
-				}
-				else {
-					lua_Number const speed_ = std::sqrt(vx * vx + vy * vy);
-					if (max_v < speed_ && speed_ > DBL_MIN) {
-						lua_Number const scale_ = max_v / speed_;
-						vx = scale_ * vx;
-						vy = scale_ * vy;
-					}
-				}
-				//针对x、y方向单独限制
-				vx = std::clamp(vx, -max_vx, max_vx);
-				vy = std::clamp(vy, -max_vy, max_vy);
-			#endif
+
 				x += vx;
 				y += vy;
 			}

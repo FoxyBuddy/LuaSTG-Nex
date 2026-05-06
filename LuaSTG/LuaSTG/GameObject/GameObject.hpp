@@ -101,11 +101,13 @@ namespace luastg {
 		double vy;						// [8] 对象速度 y 分量
 		double ax;						// [8] 对象加速度 x 分量
 		double ay;						// [8] 对象加速度 x 分量
+		
+		//Nexus版本已不再使用，未来版本将会删除
 	#ifdef USER_SYSTEM_OPERATION
-		double max_vx;					// [8] 对象速度 x 分量最大值
-		double max_vy;					// [8] 对象速度 y 分量最大值
-		double max_v;					// [8] 对象速度最大值
-		double ag;						// [8] 重力加速度
+		//double max_vx;					// [8] 对象速度 x 分量最大值
+		//double max_vy;					// [8] 对象速度 y 分量最大值
+		//double max_v;					// [8] 对象速度最大值
+		//double ag;						// [8] 重力加速度
 	#endif
 		//lua_Number va, speed; // 速度方向 速度值
 

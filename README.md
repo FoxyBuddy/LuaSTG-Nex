@@ -25,7 +25,7 @@ LuaSTG Nexus 分支是 [LuaSTG Sub](https://github.com/Legacy-LuaSTG-Engine/LuaS
 
 ## 配置要求  
 
-* 系统要求：最低为 Windows 10 1909（Nexus 分支已彻底抛弃 Windows 7 支持）
+* 系统要求：最低为 Windows 10 1809（Nexus 分支已彻底抛弃 Windows 7 支持）
 * 显卡需求：支持 Direct3D 11 且 Direct3D 功能级别至少为 D3D_FEATURE_LEVEL_10_0  
 * 声卡需求：支持 XAudio2  
 
@@ -37,7 +37,7 @@ LuaSTG Nexus 分支是 [LuaSTG Sub](https://github.com/Legacy-LuaSTG-Engine/LuaS
 
 ### 项目
 
-Sub曾在2026年3月进入近两个月的无人维护期，在一些开发者的强烈要求和新Data翻新需求下，我们启动了Nexus项目。
+Sub曾在2026年3月进入近两个月的无人维护期，在一些开发者的要求和新Data翻新需求下，我们启动了Nexus项目。
 
 Nexus项目团队的平均年龄只有20.9岁，所以在可预见的未来内会有大量的更新。
 
@@ -67,7 +67,7 @@ As Nexus is still in development and involves a number of breaking changes, plea
 
 > THlib: A set of official Touhou Project games style scripts and resources libraries, including stage backgrounds library, player library, bullet library, SpellCard system, stage group, replay system, etc., which may be more familiar to more people is "东方弹幕祀典"
 
-> The assets in THlib are set to undergo a major overhaul in the future, and we look forward to welcoming talented artists to join us! THlib contains the resources from the official Touhou Project games, as well as some resources with unknown sources and copyrights, which are only for reference and learning. Please do not use this in private projects
+> The assets in THlib are set to undergo a major overhaul in the future, and we look forward to welcoming talented artists to join us! THlib contains the resources from the official Touhou Project games, as well as some resources with unknown sources and copyrights, which are only for reference and learning. Please do not use this in private projects.
 
 ## Engine core utility
 
@@ -88,7 +88,7 @@ See [Build Projects](./BUILD.md).
 
 ### Project
 
-Sub entered a period of nearly two months without maintenance in March 2026; in response to strong requests from some developers and the need for a new data overhaul, we launched the Nexus project.
+Sub entered a period of nearly two months without maintenance in March 2026; in response to requests from some developers and the need for a new data overhaul, we launched the Nexus project.
 
 The average age of the Nexus project team is just 20.9, so there will be a large number of updates in the foreseeable future.
 
