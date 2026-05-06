@@ -6,12 +6,12 @@ string(JSON LUASTG_ORGNIZATION_NAME GET ${version_json} "organization")
 string(JSON LUASTG_VERSION_MAJOR GET ${version_json} "major")
 string(JSON LUASTG_VERSION_MINOR GET ${version_json} "minor")
 string(JSON LUASTG_VERSION_PATCH GET ${version_json} "patch")
-message(STATUS "LuaSTG Sub v${LUASTG_VERSION_MAJOR}.${LUASTG_VERSION_MINOR}.${LUASTG_VERSION_PATCH}")
+message(STATUS "LuaSTG Nexus v${LUASTG_VERSION_MAJOR}.${LUASTG_VERSION_MINOR}.${LUASTG_VERSION_PATCH}")
 
-project(LuaSTGSub
+project(LuaSTGNex
     VERSION      "${LUASTG_VERSION_MAJOR}.${LUASTG_VERSION_MINOR}.${LUASTG_VERSION_PATCH}"
-    DESCRIPTION  "LuaSTG Sub: Game engine for bullet hell games, using Lua as the scripting language"
-    HOMEPAGE_URL "https://github.com/Legacy-LuaSTG-Engine/LuaSTG-Sub"
+    DESCRIPTION  "LuaSTG Nexus: Next generation for LuaSTG Sub, game engine for bullet hell games, using Lua as the scripting language"
+    HOMEPAGE_URL "https://github.com/FoxyBuddy/LuaSTG-Nex"
 )
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
