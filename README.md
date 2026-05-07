@@ -49,7 +49,7 @@ Nexus项目团队的平均年龄只有20.9岁，所以在可预见的未来内�
 - [Xiliusha](https://github.com/Xiliusha)（LuaSTG Ex Plus 开发者）  
 - [璀境石](https://github.com/Demonese)（LuaSTG Sub 开发者）
 - [穿球鞋的狐狸哥](https://github.com/FoxyBuddy)（LuaSTG Nexus 开发者）
-- [eva]（LuaSTG Nexus 开发者）
+- [eva](https://github.com/1492083648)（LuaSTG Nexus 开发者）
 - [phsonh](https://github.com/phsonh)（LuaSTG Nexus 开发者）
 - [鱼灰]（LuaSTG Nexus 开发者）
 
@@ -100,6 +100,6 @@ The average age of the Nexus project team is just 20.9, so there will be a large
 - [Xiliusha](https://github.com/Xiliusha) (developer of LuaSTG Ex Plus)  
 - [璀境石](https://github.com/Demonese) (developer of LuaSTG Sub)
 - [穿球鞋的狐狸哥](https://github.com/FoxyBuddy) (developer of LuaSTG Nexus)
-- [eva] (developer of LuaSTG Nexus)
+- [eva](https://github.com/1492083648) (developer of LuaSTG Nexus)
 - [phsonh](https://github.com/phsonh) (developer of LuaSTG Nexus)
 - [鱼灰] (developer of LuaSTG Nexus)
