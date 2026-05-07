@@ -19,10 +19,12 @@
 //#define LUASTG_ENABLE_GAME_OBJECT_PROPERTY_PAUSE
 
 // add gravity (self.ag), speed limit (self.maxv, self.maxvx, self.maxvy)
-#define USER_SYSTEM_OPERATION
+// !!!deprecated in Nexus
+//#define USER_SYSTEM_OPERATION
 
-// !!!deprecated
+// !!!deprecated in Nexus
 // BAKACHU
+//#define GLOBAL_SCALE_COLLI_SHAPE
 
 // !!!deprecated
 // defective design (by BAKAESC)
