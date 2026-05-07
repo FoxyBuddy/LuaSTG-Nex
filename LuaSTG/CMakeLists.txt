@@ -168,6 +168,8 @@ set(LUASTG_ENGINE_SOURCES
     LuaSTG/LuaBinding/modern/SpriteRenderer.cpp
     LuaSTG/LuaBinding/modern/Clipboard.hpp
     LuaSTG/LuaBinding/modern/Clipboard.cpp
+    LuaSTG/LuaBinding/modern/Collision.hpp
+    LuaSTG/LuaBinding/modern/Collision.cpp
     LuaSTG/LuaBinding/modern/FileSystemWatcher.hpp
     LuaSTG/LuaBinding/modern/FileSystemWatcher.cpp
     LuaSTG/LuaBinding/modern/GameObject.hpp

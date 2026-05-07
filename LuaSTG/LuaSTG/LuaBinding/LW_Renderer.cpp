@@ -76,13 +76,10 @@ namespace luastg {
 		pimg2dres->Render(x, y, rot, hscale, vscale, z);
 		return RenderError::None;
 	}
-
 	inline RenderError api_drawSprite(IResourceSprite* pimg2dres, float const x, float const y, float const rot, float const hscale, float const vscale, BlendMode const blend, core::Color4B const color, float const z) {
 		pimg2dres->Render(x, y, rot, hscale, vscale, blend, color, z);
 		return RenderError::None;
 	}
-
-
 	inline RenderError api_drawSprite(char const* name, float const x, float const y, float const rot, float const hscale, float const vscale, float const z) {
 		core::SmartReference<IResourceSprite> pimg2dres = LRESMGR().FindSprite(name);
 		if (!pimg2dres) {
@@ -91,8 +88,6 @@ namespace luastg {
 		}
 		return api_drawSprite(*pimg2dres, x, y, rot, hscale, vscale, z);
 	}
-
-
 	inline RenderError api_drawSprite(char const* name, float const x, float const y, float const rot, float const hscale, float const vscale, BlendMode const blend, core::Color4B const color, float const z) {
 		core::SmartReference<IResourceSprite> pimg2dres = LRESMGR().FindSprite(name);
 		if (!pimg2dres) {
@@ -101,8 +96,6 @@ namespace luastg {
 		}
 		return api_drawSprite(*pimg2dres, x, y, rot, hscale, vscale, blend, color, z);
 	}
-
-
 	inline RenderError api_drawSpriteRect(IResourceSprite* pimg2dres, float const l, float const r, float const b, float const t, float const z) {
 		pimg2dres->RenderRect(l, r, b, t, z);
 		return RenderError::None;
@@ -132,16 +125,10 @@ namespace luastg {
 		pani2dres->Render(ani_timer, x, y, rot, hscale, vscale, z);
 		return RenderError::None;
 	}
-
-
-
 	inline RenderError api_drawSpriteSequence(IResourceAnimation* pani2dres, int const ani_timer, float const x, float const y, float const rot, float const hscale, float const vscale, BlendMode const blend, core::Color4B const color, float const z) {
 		pani2dres->Render(ani_timer, x, y, rot, hscale, vscale, blend, color, z);
 		return RenderError::None;
 	}
-
-
-
 	inline RenderError api_drawSpriteSequence(char const* name, int const ani_timer, float const x, float const y, float const rot, float const hscale, float const vscale, float const z) {
 		core::SmartReference<IResourceAnimation> pani2dres = LRESMGR().FindAnimation(name);
 		if (!pani2dres) {
@@ -150,9 +137,6 @@ namespace luastg {
 		}
 		return api_drawSpriteSequence(*pani2dres, ani_timer, x, y, rot, hscale, vscale, z);
 	}
-
-
-
 	inline RenderError api_drawSpriteSequence(char const* name, int const ani_timer, float const x, float const y, float const rot, float const hscale, float const vscale, BlendMode const blend, core::Color4B const color, float const z) {
 		core::SmartReference<IResourceAnimation> pani2dres = LRESMGR().FindAnimation(name);
 		if (!pani2dres) {
@@ -161,7 +145,6 @@ namespace luastg {
 		}
 		return api_drawSpriteSequence(*pani2dres, ani_timer, x, y, rot, hscale, vscale, blend, color, z);
 	}
-
 
 	static void api_setFogState(float start, float end, core::Color4B color) {
 		auto* ctx = LR2D();
@@ -462,21 +445,15 @@ namespace luastg {
 		return 0;
 	}
 
-
 	static core::Color4B optionalColor(lua_State* L, int const index, core::Color4B const default_value = core::Color4B::white()) {
 		if (lua_gettop(L) < index || lua_isnil(L, index)) {
 			return default_value;
 		}
-
 		if (lua_isnumber(L, index)) {
 			return core::Color4B(static_cast<uint32_t>(lua_tonumber(L, index)));
 		}
-
 		return *binding::Color::Cast(L, index);
 	}
-
-
-
 
 	static int lib_drawSprite(lua_State* L) {
 		validate_render_scope();
@@ -492,20 +469,12 @@ namespace luastg {
 		}
 		return 0;
 	}
-
-
-
 	static int lib_drawSpriteEx(lua_State* L) {
 		validate_render_scope();
-
-		// New visual API:
-		// RenderEx(img, x, y, z, rot=0, hscale=1, vscale=hscale, blend="mul+alpha", color=white)
+		// New visual API: (img, x, y, z, rot=0, hscale=1, vscale=hscale, blend='mul+alpha', color=white)
 		float const hscale = static_cast<float>(luaL_optnumber(L, 6, 1.0));
-		auto const blend = lua_gettop(L) >= 8 && !lua_isnil(L, 8)
-			? TranslateBlendMode(L, 8)
-			: BlendMode::MulAlpha;
+		auto const blend = lua_gettop(L) >= 8 && !lua_isnil(L, 8) ? TranslateBlendMode(L, 8) : BlendMode::MulAlpha;
 		auto const color = optionalColor(L, 9);
-
 		RenderError re = api_drawSprite(
 			luaL_checkstring(L, 1),
 			static_cast<float>(luaL_checknumber(L, 2)),
@@ -515,21 +484,12 @@ namespace luastg {
 			static_cast<float>(luaL_optnumber(L, 7, hscale)) * LRESMGR().GetGlobalImageScaleFactor(),
 			blend,
 			color,
-			static_cast<float>(luaL_checknumber(L, 4))
-		);
-
+			static_cast<float>(luaL_checknumber(L, 4)));
 		if (re == RenderError::SpriteNotFound) {
 			return luaL_error(L, "can't find sprite '%s'", luaL_checkstring(L, 1));
 		}
-
 		return 0;
 	}
-
-
-
-
-
-
 	static int lib_drawSpriteRect(lua_State* L) {
 		validate_render_scope();
 		RenderError re = api_drawSpriteRect(
@@ -571,20 +531,12 @@ namespace luastg {
 		}
 		return 0;
 	}
-
-
-
 	static int lib_drawSpriteSequenceEx(lua_State* L) {
 		validate_render_scope();
-
-		// New visual API:
-		// RenderAnimationEx(ani, timer, x, y, z, rot=0, hscale=1, vscale=hscale, blend="mul+alpha", color=white)
+		// New visual API: (ani, timer, x, y, z, rot=0, hscale=1, vscale=hscale, blend='mul+alpha', color=white)
 		float const hscale = static_cast<float>(luaL_optnumber(L, 7, 1.0));
-		auto const blend = lua_gettop(L) >= 9 && !lua_isnil(L, 9)
-			? TranslateBlendMode(L, 9)
-			: BlendMode::MulAlpha;
+		auto const blend = lua_gettop(L) >= 9 && !lua_isnil(L, 9) ? TranslateBlendMode(L, 9) : BlendMode::MulAlpha;
 		auto const color = optionalColor(L, 10);
-
 		RenderError re = api_drawSpriteSequence(
 			luaL_checkstring(L, 1),
 			static_cast<int>(luaL_checkinteger(L, 2)),
@@ -595,20 +547,12 @@ namespace luastg {
 			static_cast<float>(luaL_optnumber(L, 8, hscale)) * LRESMGR().GetGlobalImageScaleFactor(),
 			blend,
 			color,
-			static_cast<float>(luaL_checknumber(L, 5))
-		);
-
+			static_cast<float>(luaL_checknumber(L, 5)));
 		if (re == RenderError::SpriteSequenceNotFound) {
 			return luaL_error(L, "can't find animation '%s'", luaL_checkstring(L, 1));
 		}
-
 		return 0;
 	}
-
-
-
-
-
 
 	static int lib_drawTexture(lua_State* L) noexcept {
 		validate_render_scope();
@@ -1014,15 +958,11 @@ namespace luastg {
 		{ "SetOrtho", &lib_setOrtho },
 		{ "SetPerspective", &lib_setPerspective },
 		{ "Render", &lib_drawSprite },
-		//新的渲染接口
 		{ "RenderEx", &lib_drawSpriteEx },
-		
 		{ "RenderRect", &lib_drawSpriteRect },
 		{ "Render4V", &lib_drawSprite4V },
 		{ "RenderAnimation", &lib_drawSpriteSequence },
-		//新的渲染接口
 		{ "RenderAnimationEx", &lib_drawSpriteSequenceEx },
-
 		{ "RenderTexture", &lib_drawTexture },
 		{ "RenderModel", &lib_drawModel },
 		{ "SetFog", &compat_SetFog },

@@ -3,6 +3,7 @@
 #include "LuaBinding/Resource.hpp"
 #include "LuaBinding/external/HttpClient.hpp"
 #include "LuaBinding/modern/Clipboard.hpp"
+#include "LuaBinding/modern/Collision.hpp"
 #include "LuaBinding/modern/Display.hpp"
 #include "LuaBinding/modern/Window.hpp"
 #include "LuaBinding/modern/SwapChain.hpp"
@@ -97,6 +98,7 @@ namespace luastg::binding
 		SpriteQuadRenderer::registerClass(L);
 		FileSystemWatcher::registerClass(L);
 		GameObject::registerClass(L);
+		Collision::registerClass(L);
 		Well512::registerClass(L);
 		ShellIntegration::registerClass(L);
 		FontCollection::registerClass(L);
