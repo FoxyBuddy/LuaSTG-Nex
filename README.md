@@ -12,7 +12,7 @@ LuaSTG Nexus 分支是 [LuaSTG Sub](https://github.com/Legacy-LuaSTG-Engine/LuaS
 
 ## 下载  
 
-由于Nexus还在开发阶段，且破坏性更新较多，请敬请期待配套新版Data（Thlib）的推出！移步至 [LuaSTG-FutureData](https://github.com/FoxyBuddy/LuaSTG-Sub-FutureData) 查看更多！
+由于Nexus还在开发阶段，且破坏性更新较多，请敬请期待配套新版Data（Thlib）的推出！移步至 [LuaSTG-FutureData](https://github.com/phsonh/LuaSTG-Nex) 查看更多！
 
 > THlib：一套东方原作风格的脚本和素材库，包含关卡背景库、自机库、子弹库、符卡系统、关卡组、replay 系统等，可能被更多人更熟悉的是“东方弹幕祀典”  
 
