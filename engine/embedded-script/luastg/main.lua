@@ -3,6 +3,7 @@ require("luastg.io")
 require("luastg.math")
 require("luastg.removed")
 require("luastg.GameObject")
+require("luastg.Visual")
 
 function GameInit() end
 function FrameFunc() return false end
