@@ -1,7 +1,7 @@
 {
-    "package": "ChuiKingShek.LuaSTG.Nexus",
+    "package": "FoxyBuddy.LuaSTG.Nexus",
     "organization": "LuaSTG Community (隔壁的桌子, ⑨CHU, ESC, Xiliusha, 璀境石, 穿球鞋的狐狸哥, eva, phsonh, 鱼灰)",
     "major": 0,
     "minor": 1,
-    "patch": 1
+    "patch": 2
 }
