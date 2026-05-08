@@ -352,12 +352,34 @@ namespace luastg
 
 			binding::RegistBuiltInClassWrapper(L); // LuaSTG API
 			registerCommandLineArguments(L); // command line args
-
+			
+			/*Legacy
 			constexpr std::string_view boost_script(R"(-- LuaSTG Sub boost script
-package.cpath = ""
-package.path = "?.lua;?/init.lua;"
-require("luastg.main")
-)");
+			package.cpath = ""
+			package.path = "?.lua;?/init.lua;"
+			require("luastg.main")
+			)");*/
+
+
+			constexpr std::string_view boost_script(R"(-- LuaSTG Nex boost script
+			package.cpath = ""
+			package.path = "?.lua;?/init.lua;"
+
+			require("luastg.cjson")
+			require("luastg.io")
+			require("luastg.math")
+			require("luastg.removed")
+
+			function GameInit() end
+			function FrameFunc() return false end
+			function RenderFunc() end
+			function GameExit() end
+			function FocusLoseFunc() end
+			function FocusGainFunc() end
+			function EventFunc(event, ...) end
+			)");
+
+
 			if (!SafeCallScript(boost_script.data(), boost_script.size(), "luastg/boost.lua")) {
 				return false;
 			}

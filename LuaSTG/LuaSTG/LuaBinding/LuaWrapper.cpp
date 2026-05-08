@@ -20,7 +20,10 @@
 #include "LuaBinding/modern/Sprite.hpp"
 #include "LuaBinding/modern/SpriteRenderer.hpp"
 #include "LuaBinding/modern/FileSystemWatcher.hpp"
-#include "LuaBinding/modern/GameObject.hpp"
+
+// Legacy GameObject API disabled for Nex THlib.
+// #include "LuaBinding/modern/GameObject.hpp"
+
 #include "LuaBinding/modern/Well512.hpp"
 #include "LuaBinding/modern/ShellIntegration.hpp"
 #include "LuaBinding/modern/FontCollection.hpp"
@@ -60,7 +63,10 @@ namespace luastg::binding
 		Input::Register(L);
 		Render::Register(L);
 		Renderer::Register(L);
-		GameObjectManager::Register(L);
+
+		// Legacy GameObject API disabled for Nex THlib.
+		// GameObjectManager::Register(L);
+
 		ResourceManager::Register(L);
 		Audio::Register(L);
 		Platform::Register(L);
@@ -98,7 +104,11 @@ namespace luastg::binding
 		SpriteRectRenderer::registerClass(L);
 		SpriteQuadRenderer::registerClass(L);
 		FileSystemWatcher::registerClass(L);
-		GameObject::registerClass(L);
+
+
+		// Legacy GameObject API disabled for Nex THlib.
+		// GameObject::registerClass(L);
+
 		Unit::registerClass(L);
 		Collision::registerClass(L);
 		Well512::registerClass(L);

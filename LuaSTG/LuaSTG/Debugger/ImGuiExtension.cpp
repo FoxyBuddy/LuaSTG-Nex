@@ -374,6 +374,7 @@ namespace {
 			m_render_data_begin = m_render_data.size() - 1;
 			m_render_data_view_begin = 0;
 			m_render_data_view_count = 240;
+			/* legacy
 			// object data
 			m_object_data.resize(3600);
 			for (auto& v : m_object_data) {
@@ -382,6 +383,7 @@ namespace {
 			m_object_data_begin = m_object_data.size() - 1;
 			m_object_data_view_begin = 0;
 			m_object_data_view_count = 240;
+			*/
 		}
 
 		void update() {
@@ -398,9 +400,12 @@ namespace {
 			// render data
 			m_render_data_begin = (m_render_data_begin + 1) % m_render_data.size();
 			m_render_data[m_render_data_begin] = LAPP.getFrameRenderStatistics();
+			
+			/*legacy
 			// object data
 			m_object_data_begin = (m_object_data_begin + 1) % m_object_data.size();
 			m_object_data[m_object_data_begin] = LPOOL.DebugGetFrameStatistics();
+			*/
 		}
 
 		static ImPlotPoint getPlotPointZero(const int idx, void*) {

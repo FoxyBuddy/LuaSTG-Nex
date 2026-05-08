@@ -57,29 +57,11 @@ void luastg::binding::Render::Register(lua_State* L) noexcept
             LAPP.SaveTexture(tex_name, path);
             return 0;
         }
-        //EX+
-        static int DrawCollider(lua_State*) noexcept
-        {
-            LPOOL.DrawCollider();
-            return 1;
-        }
-        //ETC
-        static int RenderGroupCollider(lua_State* L) noexcept
-        {
-            // group color
-            LPOOL.DrawGroupCollider2(
-                luaL_checkinteger(L, 1),
-                *Color::Cast(L, 2)
-            );
-            return 0;
-        }
+        
     };
     
     luaL_Reg lib[] = {
-        ////EX+
-        { "DrawCollider", &Wrapper::DrawCollider },
-        ////ETC
-        { "RenderGroupCollider", &Wrapper::RenderGroupCollider },
+        
         
         { "RenderText", &Wrapper::RenderText },
         { "RenderTTF", &Wrapper::RenderTTF },

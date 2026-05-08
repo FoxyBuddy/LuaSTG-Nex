@@ -161,7 +161,7 @@ bool AppFrame::Init()noexcept
 			}
 		}
 	}
-
+	/*      Legacy GameObjectPool removed
 	//////////////////////////////////////// 游戏对象池
 
 	// 为对象池分配空间
@@ -173,6 +173,9 @@ bool AppFrame::Init()noexcept
 		spdlog::error("[luastg] 无法为对象池分配内存");
 		return false;
 	}
+	*/
+
+
 
 	//////////////////////////////////////// Lua 引擎
 
@@ -282,8 +285,10 @@ void AppFrame::Shutdown()noexcept
 		SafeCallGlobalFunction(LuaEngine::G_CALLBACK_EngineStop);
 	}
 
+	/*
 	m_GameObjectPool = nullptr;
 	spdlog::info("[luastg] 清空对象池");
+	*/
 
 	if (L)
 	{
@@ -514,7 +519,10 @@ bool AppFrame::onUpdateInternal()
 		tracy_zone_scoped_with_name("OnUpdate-LuaCallback");
 		// 执行帧函数
 		imgui::cancelSetCursor();
-		m_GameObjectPool->DebugNextFrame();
+
+		//legacy
+		//m_GameObjectPool->DebugNextFrame();
+		
 		if (!SafeCallGlobalFunction(LuaEngine::G_CALLBACK_EngineUpdate, 1))
 		{
 			result = false;
