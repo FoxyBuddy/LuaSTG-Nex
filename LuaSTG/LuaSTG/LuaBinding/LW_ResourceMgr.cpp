@@ -377,6 +377,23 @@ void luastg::binding::ResourceManager::Register(lua_State* L) noexcept
 			lua_pushlstring(L, it->second.data(), it->second.size());
 			return 1;
 		}
+		
+		//ReadText
+		static int NexFileReadText(lua_State* L) noexcept
+		{
+			if (lua_gettop(L) != 1)
+				return luaL_error(L, "Resource.File.ReadText(path) expected 1 argument.");
+
+			char const* path = luaL_checkstring(L, 1);
+
+			core::SmartReference<core::IData> data;
+			if (!core::FileSystemManager::readFile(path, data.put()))
+				return luaL_error(L, "Resource.File.ReadText: cannot read file '%s'.", path);
+
+			std::string text(static_cast<char const*>(data->data()), data->size());
+			lua_pushlstring(L, text.data(), text.size());
+			return 1;
+		}
 
 		static int NexFileWriteText(lua_State* L) noexcept
 		{
@@ -1046,58 +1063,20 @@ void luastg::binding::ResourceManager::Register(lua_State* L) noexcept
 		}
 	};
 
-	luaL_Reg const lib[] = {
+
+	
+	luaL_Reg const root_lib[] = {
+		// Keep only minimal resource-pool controls for now.
+		// Legacy loading APIs are intentionally not registered here.
 		{ "SetResLoadInfo", &Wrapper::SetResLoadInfo },
 		{ "SetResourceStatus", &Wrapper::SetResourceStatus },
 		{ "GetResourceStatus", &Wrapper::GetResourceStatus },
-		{ "LoadTexture", &Wrapper::LoadTexture },
-		{ "LoadImage", &Wrapper::LoadSprite },
-		{ "CopyImage", &Wrapper::CopySprite },
-		{ "LoadAnimation", &Wrapper::LoadAnimation },
-		{ "LoadPS", &Wrapper::LoadPS },
-		{ "LoadSound", &Wrapper::LoadSound },
-		{ "LoadMusic", &Wrapper::LoadMusic },
-		{ "LoadFont", &Wrapper::LoadFont },
-		{ "LoadTTF", &Wrapper::LoadTTF },
-		{ "LoadTrueTypeFont", &Wrapper::LoadTrueTypeFont },
-		{ "LoadFX", &Wrapper::LoadFX },
-		{ "LoadModel", &Wrapper::LoadModel },
-		{ "CreateRenderTarget", &Wrapper::CreateRenderTarget },
-		{ "IsRenderTarget", &Wrapper::IsRenderTarget },
-		{ "SetTexturePreMulAlphaState", &Wrapper::SetTexturePreMulAlphaState },
-		{ "SetTextureSamplerState", &Wrapper::SetTextureSamplerState },
-		{ "GetTextureSize", &Wrapper::GetTextureSize },
-		{ "RemoveResource", &Wrapper::RemoveResource },
-		{ "CheckRes", &Wrapper::CheckRes },
-		{ "EnumRes", &Wrapper::EnumRes },
-
-		{ "SetImageScale", &Wrapper::SetImageScale },
-		{ "GetImageScale", &Wrapper::GetImageScale },
-		{ "GetImageSize", &Wrapper::GetImageSize },
-		{ "SetImageState", &Wrapper::SetImageState },
-		{ "GetImageBlend", &Wrapper::GetImageBlend },
-		{ "GetImageColor", &Wrapper::GetImageColor },
-		{ "SetImageCenter", &Wrapper::SetImageCenter },
-
-		{ "SetAnimationScale", &Wrapper::SetAnimationScale },
-		{ "GetAnimationScale", &Wrapper::GetAnimationScale },
-		{ "SetAnimationState", &Wrapper::SetAnimationState },
-		{ "SetAnimationCenter", &Wrapper::SetAnimationCenter },
-
-		{ "SetFontState", &Wrapper::SetFontState },
-
-		{ "CacheTTFString", &Wrapper::CacheTTFString },
 
 		{ NULL, NULL },
 	};
 
-	luaL_Reg const lib_empty[] = {
-		{ NULL, NULL },
-	};
-
-	luaL_register(L, LUASTG_LUA_LIBNAME, lib);                    // ??? lstg
-	luaL_register(L, LUASTG_LUA_LIBNAME ".ResourceManager", lib); // ??? lstg lstg.ResourceManager
-	lua_setfield(L, -1, "ResourceManager");                       // ??? lstg
+	// Root lstg table.
+	luaL_register(L, LUASTG_LUA_LIBNAME, root_lib);
 
 	// Nex resource API: lstg.Resource.*
 	luaL_Reg const nex_image_lib[] = {
@@ -1109,6 +1088,7 @@ void luastg::binding::ResourceManager::Register(lua_State* L) noexcept
 		{ "GetSpriteScale", &Wrapper::NexImageGetSpriteScale },
 		{ NULL, NULL },
 	};
+
 	luaL_Reg const nex_audio_lib[] = {
 		{ "LoadSound", &Wrapper::NexAudioLoadSound },
 		{ "LoadMusic", &Wrapper::NexAudioLoadMusic },
@@ -1116,31 +1096,39 @@ void luastg::binding::ResourceManager::Register(lua_State* L) noexcept
 		{ "PlayMusic", &Wrapper::NexAudioPlayMusic },
 		{ NULL, NULL },
 	};
+
 	luaL_Reg const nex_file_lib[] = {
 		{ "LoadText", &Wrapper::NexFileLoadText },
 		{ "GetText", &Wrapper::NexFileGetText },
+		{ "ReadText", &Wrapper::NexFileReadText },
 		{ "WriteText", &Wrapper::NexFileWriteText },
 		{ NULL, NULL },
 	};
+
 	luaL_Reg const nex_effect_lib[] = {
 		{ "LoadParticle", &Wrapper::NexEffectLoadParticle },
 		{ NULL, NULL },
 	};
 
-	lua_newtable(L);                  // lstg Resource
-	lua_newtable(L);                  // lstg Resource Image
+	lua_newtable(L); // Resource
+
+	lua_newtable(L); // Resource.Image
 	luaL_register(L, NULL, nex_image_lib);
 	lua_setfield(L, -2, "Image");
-	lua_newtable(L);                  // lstg Resource Audio
+
+	lua_newtable(L); // Resource.Audio
 	luaL_register(L, NULL, nex_audio_lib);
 	lua_setfield(L, -2, "Audio");
-	lua_newtable(L);                  // lstg Resource File
+
+	lua_newtable(L); // Resource.File
 	luaL_register(L, NULL, nex_file_lib);
 	lua_setfield(L, -2, "File");
-	lua_newtable(L);                  // lstg Resource Effect
+
+	lua_newtable(L); // Resource.Effect
 	luaL_register(L, NULL, nex_effect_lib);
 	lua_setfield(L, -2, "Effect");
+
 	lua_setfield(L, -2, "Resource"); // lstg.Resource = Resource
 
-	lua_pop(L, 1);                                                // ???
+	lua_pop(L, 1); // pop lstg                                           // ???
 }
