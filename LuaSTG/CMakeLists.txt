@@ -59,6 +59,10 @@ set(LUASTG_ENGINE_SOURCES
     LuaSTG/GameObject/GameObjectPool.cpp
     LuaSTG/GameObject/GameObjectPool.h
 
+    LuaSTG/Unit/Unit.hpp
+    LuaSTG/Unit/UnitPool.hpp
+    LuaSTG/Unit/UnitPool.cpp
+
     LuaSTG/GameResource/LegacyBlendStateHelper.hpp
     LuaSTG/GameResource/ResourceBase.hpp
     LuaSTG/GameResource/ResourceTexture.hpp
@@ -170,6 +174,8 @@ set(LUASTG_ENGINE_SOURCES
     LuaSTG/LuaBinding/modern/Clipboard.cpp
     LuaSTG/LuaBinding/modern/Collision.hpp
     LuaSTG/LuaBinding/modern/Collision.cpp
+    LuaSTG/LuaBinding/modern/Unit.hpp
+    LuaSTG/LuaBinding/modern/Unit.cpp
     LuaSTG/LuaBinding/modern/FileSystemWatcher.hpp
     LuaSTG/LuaBinding/modern/FileSystemWatcher.cpp
     LuaSTG/LuaBinding/modern/GameObject.hpp

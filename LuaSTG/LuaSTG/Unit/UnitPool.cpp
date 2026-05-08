@@ -1,0 +1,106 @@
+#include "Unit/UnitPool.hpp"
+#include <algorithm>
+
+namespace luastg {
+	UnitHandle UnitPool::create() {
+		uint32_t index{};
+		if (!m_free_list.empty()) {
+			index = m_free_list.back();
+			m_free_list.pop_back();
+		}
+		else {
+			index = static_cast<uint32_t>(m_slots.size());
+			m_slots.emplace_back();
+			m_slots.back().generation = 1;
+		}
+
+		auto& slot = m_slots[index];
+		slot.occupied = true;
+		slot.unit = Unit{};
+		slot.unit.id = index + 1;
+		slot.unit.generation = slot.generation;
+		slot.unit.alive = true;
+		++m_alive_count;
+		return UnitHandle{ slot.unit.id, slot.unit.generation };
+	}
+
+	bool UnitPool::destroy(UnitHandle const handle) noexcept {
+		if (handle.id == 0) {
+			return false;
+		}
+		auto const index = handle.id - 1;
+		if (index >= m_slots.size()) {
+			return false;
+		}
+		auto& slot = m_slots[index];
+		if (!slot.occupied || slot.generation != handle.generation || !slot.unit.alive) {
+			return false;
+		}
+
+		slot.unit.alive = false;
+		slot.occupied = false;
+		++slot.generation;
+		m_free_list.push_back(index);
+		--m_alive_count;
+		return true;
+	}
+
+	Unit* UnitPool::get(UnitHandle const handle) noexcept {
+		if (handle.id == 0) {
+			return nullptr;
+		}
+		auto const index = handle.id - 1;
+		if (index >= m_slots.size()) {
+			return nullptr;
+		}
+		auto& slot = m_slots[index];
+		if (!slot.occupied || slot.generation != handle.generation || !slot.unit.alive) {
+			return nullptr;
+		}
+		return &slot.unit;
+	}
+
+	Unit const* UnitPool::get(UnitHandle const handle) const noexcept {
+		if (handle.id == 0) {
+			return nullptr;
+		}
+		auto const index = handle.id - 1;
+		if (index >= m_slots.size()) {
+			return nullptr;
+		}
+		auto const& slot = m_slots[index];
+		if (!slot.occupied || slot.generation != handle.generation || !slot.unit.alive) {
+			return nullptr;
+		}
+		return &slot.unit;
+	}
+
+	void UnitPool::updateAll() noexcept {
+		for (auto& slot : m_slots) {
+			if (!slot.occupied || !slot.unit.alive) {
+				continue;
+			}
+			auto& u = slot.unit;
+			u.vx += u.ax;
+			u.vy += u.ay;
+			u.x += u.vx;
+			u.y += u.vy;
+			++u.timer;
+		}
+	}
+
+	void UnitPool::clear() noexcept {
+		m_slots.clear();
+		m_free_list.clear();
+		m_alive_count = 0;
+	}
+
+	size_t UnitPool::count() const noexcept {
+		return m_alive_count;
+	}
+
+	UnitPool& GetUnitPool() noexcept {
+		static UnitPool pool;
+		return pool;
+	}
+}
