@@ -1,10 +1,60 @@
 #include "LuaBinding/modern/Unit.hpp"
 #include "LuaBinding/LuaWrapper.hpp"
 #include "Unit/UnitPool.hpp"
+#include <cmath>
 #include <cstring>
 
 namespace {
+
 	constexpr char const* kUnitMetatable = "lstg.Unit.instance";
+    constexpr double kPi = 3.141592653589793238462643383279502884;
+    constexpr double kDegToRad = kPi / 180.0;
+    constexpr double kRadToDeg = 180.0 / kPi;
+    constexpr double kUnitEpsilon = 1e-12;
+
+	double unwrap_degrees_near(double const reference, double const principal) noexcept {
+		double delta = std::fmod(principal - reference, 360.0);
+
+		if (delta > 180.0) {
+			delta -= 360.0;
+		}
+		if (delta <= -180.0) {
+			delta += 360.0;
+		}
+
+		return reference + delta;
+	}
+
+
+    void sync_rot_from_velocity(luastg::Unit& unit) noexcept {
+		if ((unit.vx * unit.vx + unit.vy * unit.vy) <= kUnitEpsilon) {
+			return;
+		}
+
+		auto const principal = std::atan2(unit.vy, unit.vx) * kRadToDeg;
+		unit.rot = unwrap_degrees_near(unit.rot, principal);
+	}
+
+    void set_velocity(luastg::Unit& unit, double const vx, double const vy) noexcept {
+        unit.vx = vx;
+        unit.vy = vy;
+        sync_rot_from_velocity(unit);
+    }
+
+    void set_rot_keep_speed(luastg::Unit& unit, double const rot) noexcept {
+        unit.rot = rot;
+
+        auto const speed = std::sqrt(unit.vx * unit.vx + unit.vy * unit.vy);
+        if (speed <= kUnitEpsilon) {
+            return;
+        }
+
+        auto const rad = unit.rot * kDegToRad;
+        unit.vx = speed * std::cos(rad);
+        unit.vy = speed * std::sin(rad);
+    }
+	
+	
 
 	struct UnitUserData {
 		luastg::UnitHandle handle{};
@@ -88,10 +138,7 @@ namespace {
 			lua_pushinteger(vm, static_cast<lua_Integer>(unit->generation));
 			return 1;
 		}
-		if (std::strcmp(key, "alive") == 0) {
-			lua_pushboolean(vm, unit->alive);
-			return 1;
-		}
+
 		if (std::strcmp(key, "timer") == 0) {
 			lua_pushinteger(vm, static_cast<lua_Integer>(unit->timer));
 			return 1;
@@ -125,18 +172,22 @@ namespace {
 
 		if (std::strcmp(key, "x") == 0) { unit->x = luaL_checknumber(vm, 3); return 0; }
 		if (std::strcmp(key, "y") == 0) { unit->y = luaL_checknumber(vm, 3); return 0; }
-		if (std::strcmp(key, "vx") == 0) { unit->vx = luaL_checknumber(vm, 3); return 0; }
-		if (std::strcmp(key, "vy") == 0) { unit->vy = luaL_checknumber(vm, 3); return 0; }
+		if (std::strcmp(key, "vx") == 0) { set_velocity(*unit, luaL_checknumber(vm, 3), unit->vy); return 0; }
+		if (std::strcmp(key, "vy") == 0) { set_velocity(*unit, unit->vx, luaL_checknumber(vm, 3)); return 0; }
 		if (std::strcmp(key, "ax") == 0) { unit->ax = luaL_checknumber(vm, 3); return 0; }
 		if (std::strcmp(key, "ay") == 0) { unit->ay = luaL_checknumber(vm, 3); return 0; }
-		if (std::strcmp(key, "rot") == 0) { unit->rot = luaL_checknumber(vm, 3); return 0; }
-		if (std::strcmp(key, "alive") == 0) {
-			unit->alive = lua_toboolean(vm, 3) != 0;
-			return 0;
-		}
+		if (std::strcmp(key, "rot") == 0) { set_rot_keep_speed(*unit, luaL_checknumber(vm, 3)); return 0; }
 
 		return luaL_error(vm, "unknown or read-only lstg.Unit field '%s'", key);
 	}
+
+
+	int unit_set_velocity(lua_State* const vm) {
+		auto* unit = check_unit(vm, 1);
+		set_velocity(*unit, luaL_checknumber(vm, 2), luaL_checknumber(vm, 3));
+		return 0;
+	}
+
 
 	void create_unit_metatable(lua_State* const vm) {
 		if (luaL_newmetatable(vm, kUnitMetatable)) {

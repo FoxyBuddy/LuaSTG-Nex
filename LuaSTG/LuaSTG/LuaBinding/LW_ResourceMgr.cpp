@@ -1,11 +1,33 @@
 #include "LuaBinding/LuaWrapper.hpp"
 #include "lua/plus.hpp"
 #include "AppFrame.h"
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <unordered_map>
 
 void luastg::binding::ResourceManager::Register(lua_State* L) noexcept
 {
 	struct Wrapper
 	{
+		static std::unordered_map<std::string, float>& NexSoundLevels() noexcept {
+			static std::unordered_map<std::string, float> levels;
+			return levels;
+		}
+		static std::unordered_map<std::string, float>& NexMusicLevels() noexcept {
+			static std::unordered_map<std::string, float> levels;
+			return levels;
+		}
+		static std::unordered_map<std::string, std::string>& NexTextCache() noexcept {
+			static std::unordered_map<std::string, std::string> texts;
+			return texts;
+		}
+		static float CheckLevel(lua_State* L, int index, float default_value, char const* api_name) {
+			float const level = static_cast<float>(luaL_optnumber(L, index, default_value));
+			if (level < 0.0f || level > 1.0f)
+				luaL_error(L, "%s: level must be in range [0, 1].", api_name);
+			return level;
+		}
 		static int SetResLoadInfo(lua_State* L) noexcept {
 			ResourceMgr::SetResourceLoadingLog((bool)lua_toboolean(L, 1));
 			return 0;
@@ -137,6 +159,250 @@ void luastg::binding::ResourceManager::Register(lua_State* L) noexcept
 			
 			return 0;
 		}
+		static int NexImageLoadTexture(lua_State* L) noexcept
+		{
+			if (lua_gettop(L) != 2)
+				return luaL_error(L, "Resource.Image.LoadTexture(name, path) expected 2 arguments.");
+
+			char const* name = luaL_checkstring(L, 1);
+			char const* path = luaL_checkstring(L, 2);
+
+			ResourcePool* pActivedPool = LRES.GetActivedPool();
+			if (!pActivedPool)
+				return luaL_error(L, "can't load resource at this time.");
+
+			if (!pActivedPool->LoadTexture(name, path, false))
+				return luaL_error(L, "Resource.Image.LoadTexture: can't load texture from file '%s'.", path);
+
+			return 0;
+		}
+
+		static int NexImageLoadSprite(lua_State* L) noexcept
+		{
+			int const argc = lua_gettop(L);
+			if (argc != 6 && argc != 8)
+				return luaL_error(L, "Resource.Image.LoadSprite(name, texture, x, y, w, h[, scale_x, scale_y]) expected 6 or 8 arguments.");
+
+			char const* name = luaL_checkstring(L, 1);
+			char const* texname = luaL_checkstring(L, 2);
+			double const x = luaL_checknumber(L, 3);
+			double const y = luaL_checknumber(L, 4);
+			double const w = luaL_checknumber(L, 5);
+			double const h = luaL_checknumber(L, 6);
+			double const scale_x = argc >= 8 ? luaL_checknumber(L, 7) : 1.0;
+			double const scale_y = argc >= 8 ? luaL_checknumber(L, 8) : 1.0;
+
+			if (w <= 0.0 || h <= 0.0)
+				return luaL_error(L, "Resource.Image.LoadSprite: width and height must be positive.");
+			if (scale_x == 0.0 || scale_y == 0.0)
+				return luaL_error(L, "Resource.Image.LoadSprite: scale_x and scale_y must be non-zero.");
+
+			ResourcePool* pActivedPool = LRES.GetActivedPool();
+			if (!pActivedPool)
+				return luaL_error(L, "can't load resource at this time.");
+
+			if (!pActivedPool->CreateSprite(name, texname, x, y, w, h))
+				return luaL_error(L, "Resource.Image.LoadSprite: failed (name='%s', texture='%s').", name, texname);
+
+			core::SmartReference<IResourceSprite> sprite = LRES.FindSprite(name);
+			if (!sprite)
+				return luaL_error(L, "Resource.Image.LoadSprite: sprite '%s' was created but cannot be found.", name);
+			sprite->SetScale(scale_x, scale_y);
+
+			return 0;
+		}
+
+		static int NexImageLoadFullSprite(lua_State* L) noexcept
+		{
+			int const argc = lua_gettop(L);
+			if (argc != 2 && argc != 4)
+				return luaL_error(L, "Resource.Image.LoadFullSprite(name, texture[, scale_x, scale_y]) expected 2 or 4 arguments.");
+
+			char const* name = luaL_checkstring(L, 1);
+			char const* texname = luaL_checkstring(L, 2);
+			double const scale_x = argc >= 4 ? luaL_checknumber(L, 3) : 1.0;
+			double const scale_y = argc >= 4 ? luaL_checknumber(L, 4) : 1.0;
+
+			core::Vector2U size;
+			if (!LRES.GetTextureSize(texname, size))
+				return luaL_error(L, "Resource.Image.LoadFullSprite: texture '%s' not found.", texname);
+
+			ResourcePool* pActivedPool = LRES.GetActivedPool();
+			if (!pActivedPool)
+				return luaL_error(L, "can't load resource at this time.");
+
+			if (!pActivedPool->CreateSprite(name, texname, 0.0, 0.0, static_cast<double>(size.x), static_cast<double>(size.y)))
+				return luaL_error(L, "Resource.Image.LoadFullSprite: failed (name='%s', texture='%s').", name, texname);
+
+			core::SmartReference<IResourceSprite> sprite = LRES.FindSprite(name);
+			if (!sprite)
+				return luaL_error(L, "Resource.Image.LoadFullSprite: sprite '%s' was created but cannot be found.", name);
+			sprite->SetScale(scale_x, scale_y);
+
+			return 0;
+		}
+
+		static int NexImageGetTextureSize(lua_State* L) noexcept
+		{
+			return GetTextureSize(L);
+		}
+
+		static int NexImageGetSpriteSize(lua_State* L) noexcept
+		{
+			return GetImageSize(L);
+		}
+
+		static int NexImageGetSpriteScale(lua_State* L) noexcept
+		{
+			core::SmartReference<IResourceSprite> sprite = LRES.FindSprite(luaL_checkstring(L, 1));
+			if (!sprite)
+				return luaL_error(L, "sprite '%s' not found.", luaL_checkstring(L, 1));
+			lua_pushnumber(L, sprite->GetScaleX());
+			lua_pushnumber(L, sprite->GetScaleY());
+			return 2;
+		}
+
+		static int NexAudioLoadSound(lua_State* L) noexcept
+		{
+			int const argc = lua_gettop(L);
+			if (argc != 2 && argc != 3)
+				return luaL_error(L, "Resource.Audio.LoadSound(name, path[, level]) expected 2 or 3 arguments.");
+
+			char const* name = luaL_checkstring(L, 1);
+			char const* path = luaL_checkstring(L, 2);
+			float const level = CheckLevel(L, 3, 1.0f, "Resource.Audio.LoadSound");
+
+			ResourcePool* pActivedPool = LRES.GetActivedPool();
+			if (!pActivedPool)
+				return luaL_error(L, "can't load resource at this time.");
+
+			if (!pActivedPool->LoadSoundEffect(name, path))
+				return luaL_error(L, "Resource.Audio.LoadSound: failed (name='%s', path='%s').", name, path);
+
+			NexSoundLevels()[name] = level;
+			return 0;
+		}
+
+		static int NexAudioLoadMusic(lua_State* L) noexcept
+		{
+			int const argc = lua_gettop(L);
+			if (argc != 2 && argc != 3 && argc != 5)
+				return luaL_error(L, "Resource.Audio.LoadMusic(name, path[, level[, loop_start, loop_end]]) expected 2, 3, or 5 arguments.");
+
+			char const* name = luaL_checkstring(L, 1);
+			char const* path = luaL_checkstring(L, 2);
+			float const level = CheckLevel(L, 3, 1.0f, "Resource.Audio.LoadMusic");
+			double const loop_start = argc >= 5 ? luaL_checknumber(L, 4) : 0.0;
+			double const loop_end = argc >= 5 ? luaL_checknumber(L, 5) : 0.0;
+
+			ResourcePool* pActivedPool = LRES.GetActivedPool();
+			if (!pActivedPool)
+				return luaL_error(L, "can't load resource at this time.");
+
+			if (!pActivedPool->LoadMusic(name, path, loop_start, loop_end, false))
+				return luaL_error(L, "Resource.Audio.LoadMusic: failed (name='%s', path='%s', loop=%f~%f).", name, path, loop_start, loop_end);
+
+			NexMusicLevels()[name] = level;
+			return 0;
+		}
+
+		static int NexAudioPlaySound(lua_State* L) noexcept
+		{
+			int const argc = lua_gettop(L);
+			if (argc != 1 && argc != 2)
+				return luaL_error(L, "Resource.Audio.PlaySound(name[, level]) expected 1 or 2 arguments.");
+
+			char const* name = luaL_checkstring(L, 1);
+			float const level = CheckLevel(L, 2, 1.0f, "Resource.Audio.PlaySound");
+
+			core::SmartReference<IResourceSoundEffect> sound = LRES.FindSound(name);
+			if (!sound)
+				return luaL_error(L, "sound '%s' not found.", name);
+
+			auto const it = NexSoundLevels().find(name);
+			float const base_level = it == NexSoundLevels().end() ? 1.0f : it->second;
+			sound->Play(base_level * level, 0.0f);
+			return 0;
+		}
+
+		static int NexAudioPlayMusic(lua_State* L) noexcept
+		{
+			int const argc = lua_gettop(L);
+			if (argc != 1 && argc != 2)
+				return luaL_error(L, "Resource.Audio.PlayMusic(name[, level]) expected 1 or 2 arguments.");
+
+			char const* name = luaL_checkstring(L, 1);
+			float const level = CheckLevel(L, 2, 1.0f, "Resource.Audio.PlayMusic");
+
+			core::SmartReference<IResourceMusic> music = LRES.FindMusic(name);
+			if (!music)
+				return luaL_error(L, "music '%s' not found.", name);
+
+			auto const it = NexMusicLevels().find(name);
+			float const base_level = it == NexMusicLevels().end() ? 1.0f : it->second;
+			music->Play(base_level * level, 0.0);
+			return 0;
+		}
+
+		static int NexFileLoadText(lua_State* L) noexcept
+		{
+			if (lua_gettop(L) != 2)
+				return luaL_error(L, "Resource.File.LoadText(name, path) expected 2 arguments.");
+
+			char const* name = luaL_checkstring(L, 1);
+			char const* path = luaL_checkstring(L, 2);
+
+			core::SmartReference<core::IData> data;
+			if (!core::FileSystemManager::readFile(path, data.put()))
+				return luaL_error(L, "Resource.File.LoadText: cannot read file '%s'.", path);
+
+			std::string text(static_cast<char const*>(data->data()), data->size());
+			NexTextCache()[name] = text;
+			lua_pushlstring(L, text.data(), text.size());
+			return 1;
+		}
+
+		static int NexFileGetText(lua_State* L) noexcept
+		{
+			if (lua_gettop(L) != 1)
+				return luaL_error(L, "Resource.File.GetText(name) expected 1 argument.");
+
+			char const* name = luaL_checkstring(L, 1);
+			auto const it = NexTextCache().find(name);
+			if (it == NexTextCache().end()) {
+				lua_pushnil(L);
+				return 1;
+			}
+
+			lua_pushlstring(L, it->second.data(), it->second.size());
+			return 1;
+		}
+
+		static int NexFileWriteText(lua_State* L) noexcept
+		{
+			if (lua_gettop(L) != 2)
+				return luaL_error(L, "Resource.File.WriteText(path, text) expected 2 arguments.");
+
+			char const* path = luaL_checkstring(L, 1);
+			size_t length = 0;
+			char const* text = luaL_checklstring(L, 2, &length);
+
+			core::SmartReference<core::IData> data;
+			if (!core::IData::create(length, data.put()))
+				return luaL_error(L, "Resource.File.WriteText: cannot allocate buffer.");
+			if (length > 0)
+				std::memcpy(data->data(), text, length);
+
+			bool const ok = core::FileSystemManager::writeFile(path, data.get());
+			lua_pushboolean(L, ok ? 1 : 0);
+			return 1;
+		}
+
+		static int NexEffectLoadParticle(lua_State* L) noexcept
+		{
+			return LoadPS(L);
+		}
+
 		static int LoadPS(lua_State* L) noexcept
 		{
 			ResourcePool* pActivedPool = LRES.GetActivedPool();
@@ -832,5 +1098,49 @@ void luastg::binding::ResourceManager::Register(lua_State* L) noexcept
 	luaL_register(L, LUASTG_LUA_LIBNAME, lib);                    // ??? lstg
 	luaL_register(L, LUASTG_LUA_LIBNAME ".ResourceManager", lib); // ??? lstg lstg.ResourceManager
 	lua_setfield(L, -1, "ResourceManager");                       // ??? lstg
+
+	// Nex resource API: lstg.Resource.*
+	luaL_Reg const nex_image_lib[] = {
+		{ "LoadTexture", &Wrapper::NexImageLoadTexture },
+		{ "LoadSprite", &Wrapper::NexImageLoadSprite },
+		{ "LoadFullSprite", &Wrapper::NexImageLoadFullSprite },
+		{ "GetTextureSize", &Wrapper::NexImageGetTextureSize },
+		{ "GetSpriteSize", &Wrapper::NexImageGetSpriteSize },
+		{ "GetSpriteScale", &Wrapper::NexImageGetSpriteScale },
+		{ NULL, NULL },
+	};
+	luaL_Reg const nex_audio_lib[] = {
+		{ "LoadSound", &Wrapper::NexAudioLoadSound },
+		{ "LoadMusic", &Wrapper::NexAudioLoadMusic },
+		{ "PlaySound", &Wrapper::NexAudioPlaySound },
+		{ "PlayMusic", &Wrapper::NexAudioPlayMusic },
+		{ NULL, NULL },
+	};
+	luaL_Reg const nex_file_lib[] = {
+		{ "LoadText", &Wrapper::NexFileLoadText },
+		{ "GetText", &Wrapper::NexFileGetText },
+		{ "WriteText", &Wrapper::NexFileWriteText },
+		{ NULL, NULL },
+	};
+	luaL_Reg const nex_effect_lib[] = {
+		{ "LoadParticle", &Wrapper::NexEffectLoadParticle },
+		{ NULL, NULL },
+	};
+
+	lua_newtable(L);                  // lstg Resource
+	lua_newtable(L);                  // lstg Resource Image
+	luaL_register(L, NULL, nex_image_lib);
+	lua_setfield(L, -2, "Image");
+	lua_newtable(L);                  // lstg Resource Audio
+	luaL_register(L, NULL, nex_audio_lib);
+	lua_setfield(L, -2, "Audio");
+	lua_newtable(L);                  // lstg Resource File
+	luaL_register(L, NULL, nex_file_lib);
+	lua_setfield(L, -2, "File");
+	lua_newtable(L);                  // lstg Resource Effect
+	luaL_register(L, NULL, nex_effect_lib);
+	lua_setfield(L, -2, "Effect");
+	lua_setfield(L, -2, "Resource"); // lstg.Resource = Resource
+
 	lua_pop(L, 1);                                                // ???
 }

@@ -1,7 +1,36 @@
 #include "Unit/UnitPool.hpp"
 #include <algorithm>
+#include <cmath>
+#include <limits>
 
 namespace luastg {
+	namespace {
+        constexpr double kPi = 3.141592653589793238462643383279502884;
+        constexpr double kRadToDeg = 180.0 / kPi;
+        constexpr double kUnitEpsilon = 1e-12;
+
+		double unwrapDegreesNear(double const reference, double const principal) noexcept {
+			double delta = std::fmod(principal - reference, 360.0);
+
+			if (delta > 180.0) {
+				delta -= 360.0;
+			}
+			if (delta <= -180.0) {
+				delta += 360.0;
+			}
+
+			return reference + delta;
+		}
+
+		void syncUnitRotFromVelocity(Unit& unit) noexcept {
+			if ((unit.vx * unit.vx + unit.vy * unit.vy) <= kUnitEpsilon) {
+				return;
+			}
+
+			auto const principal = std::atan2(unit.vy, unit.vx) * kRadToDeg;
+			unit.rot = unwrapDegreesNear(unit.rot, principal);
+		}
+    }
 	UnitHandle UnitPool::create() {
 		uint32_t index{};
 		if (!m_free_list.empty()) {
@@ -83,6 +112,7 @@ namespace luastg {
 			auto& u = slot.unit;
 			u.vx += u.ax;
 			u.vy += u.ay;
+			syncUnitRotFromVelocity(u);
 			u.x += u.vx;
 			u.y += u.vy;
 			++u.timer;
