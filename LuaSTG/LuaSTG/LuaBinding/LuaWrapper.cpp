@@ -3,7 +3,8 @@
 #include "LuaBinding/Resource.hpp"
 #include "LuaBinding/external/HttpClient.hpp"
 #include "LuaBinding/modern/Clipboard.hpp"
-#include "LuaBinding/modern/Collision.hpp"
+// Legacy GameObject-based Collision disabled.
+// #include "LuaBinding/modern/Collision.hpp"
 #include "LuaBinding/modern/Unit.hpp"
 #include "LuaBinding/modern/Display.hpp"
 #include "LuaBinding/modern/Window.hpp"
@@ -37,17 +38,19 @@ namespace luastg::binding
 		StopWatch::CreateAndPush(L);
 		return 1;
 	}
+
+	/*legacy
 	static int lib_BentLaser(lua_State* L) noexcept
 	{
 		BentLaser::CreateAndPush(L);
 		return 1;
 	}
+	*/
 
 	void RegistBuiltInClassWrapper(lua_State* L) noexcept
 	{
 		luaL_Reg constructors[] = {
 			{ "StopWatch", &lib_StopWatch },
-			{ "BentLaserData", &lib_BentLaser },
 			{ nullptr, nullptr },
 		};
 
@@ -55,7 +58,8 @@ namespace luastg::binding
 		Color::Register(L);
 		ParticleSystem::Register(L);
 		StopWatch::Register(L);
-		BentLaser::Register(L);
+		// Legacy BentLaser disabled.
+		// BentLaser::Register(L);
 		DirectInput::Register(L);
 		lua_pop(L, 1);	
 
@@ -110,7 +114,9 @@ namespace luastg::binding
 		// GameObject::registerClass(L);
 
 		Unit::registerClass(L);
-		Collision::registerClass(L);
+
+		// Legacy GameObject-based Collision disabled.
+		// Collision::registerClass(L);
 		Well512::registerClass(L);
 		ShellIntegration::registerClass(L);
 		FontCollection::registerClass(L);

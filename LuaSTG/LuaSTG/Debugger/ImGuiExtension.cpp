@@ -571,7 +571,9 @@ namespace {
 				ImPlot::EndPlot();
 			}
 		}
-
+		
+		
+		/* legacy
 		static ImPlotPoint getObjectDataAllocHigh(const int idx, void* const user_data) {
 			const auto self = static_cast<FrameStatisticsView*>(user_data);
 			const auto data_index = (self->m_object_data_view_begin + idx) % self->m_object_data.size();
@@ -657,7 +659,7 @@ namespace {
 				ImPlot::EndPlot();
 			}
 		}
-
+		*/
 		void layoutMenuBar() {
 			if (ImGui::BeginMenuBar()) {
 				if (ImGui::BeginMenu("Data")) {
@@ -683,7 +685,7 @@ namespace {
 				layoutMenuBar();
 				layoutFrameData();
 				layoutRenderData();
-				layoutObjectData();
+				//layoutObjectData();
 			}
 			ImGui::End();
 		}
@@ -705,6 +707,7 @@ namespace {
 		bool m_render_data_view_fit_x{ true };
 		bool m_render_data_view_fit_y{ true };
 
+		/* legacy
 		std::vector<luastg::GameObjectPool::FrameStatistics> m_object_data;
 		size_t m_object_data_begin{};
 		size_t m_object_data_view_begin{}; // cached calculated value
@@ -712,6 +715,8 @@ namespace {
 		float m_object_data_view_height{ 256.0f };
 		bool m_object_data_view_fit_x{ true };
 		bool m_object_data_view_fit_y{ true };
+		*/
+
 
 		bool m_paused{};
 		bool m_hide_controls{};
