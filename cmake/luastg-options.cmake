@@ -18,32 +18,8 @@ endfunction()
 
 # LuaSTG - General
 
-luastg_cmake_option(
-    NAME LUASTG_COMPATIBILITY_MODE_WINDOWS7_SP1
-    TYPE BOOL
-    HELP "LuaSTG: Compatibility Mode: Windows 7 Service Pack 1"
-    VALUE TRUE
-)
-
-if (LUASTG_COMPATIBILITY_MODE_WINDOWS7_SP1)
-    message(STATUS  "LuaSTG: Compatibility Mode: Windows 7 Service Pack 1")
-    message(WARNING "Warning: Support for Windows 7/8/8.1 will be removed, the new support baseline will be set to Windows 10 version 1809 (Windows 10 LTSC 2019)")
-endif ()
-
-if (LUASTG_COMPATIBILITY_MODE_WINDOWS7_SP1 AND (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC") AND (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "19.50.0.0"))
-    message(WARNING "Warning: Visual Studio 2026 Toolset v145 does not support Windows 7/8/8.1")
-endif ()
-
-luastg_cmake_option(
-    NAME LUASTG_COMPATIBILITY_MODE_WINDOWS10_PRE_1809
-    TYPE BOOL
-    HELP "LuaSTG: Compatibility Mode: Windows 10 1507/1511/1607/1703/1709/1803"
-    VALUE TRUE
-)
-
-if (LUASTG_COMPATIBILITY_MODE_WINDOWS10_PRE_1809)
-    message(STATUS  "LuaSTG: Compatibility Mode: Windows 10 1507/1511/1607/1703/1709/1803")
-    message(WARNING "Warning: Support for Windows 10 1507/1511/1607/1703/1709/1803 will be removed, the new support baseline will be set to Windows 10 version 1809 (Windows 10 LTSC 2019)")
+if ( (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC") AND (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "19.50.0.0"))
+    message(WARNING "Future version for LuaSTG Nexus will drop support for Windows 10 1803 or below and no longer runs on 32-bit systems.")
 endif ()
 
 # LuaSTG - Configuration
