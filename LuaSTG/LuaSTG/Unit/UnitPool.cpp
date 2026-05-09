@@ -38,6 +38,10 @@ namespace luastg {
 			m_free_list.pop_back();
 		}
 		else {
+			if (m_slots.size() >= m_max_units) {
+				return {};
+			}
+
 			index = static_cast<uint32_t>(m_slots.size());
 			m_slots.emplace_back();
 			m_slots.back().generation = 1;

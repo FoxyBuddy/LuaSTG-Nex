@@ -5,7 +5,9 @@
 #include "LuaBinding/modern/Clipboard.hpp"
 // Legacy GameObject-based Collision disabled.
 // #include "LuaBinding/modern/Collision.hpp"
+
 #include "LuaBinding/modern/Unit.hpp"
+
 #include "LuaBinding/modern/Display.hpp"
 #include "LuaBinding/modern/Window.hpp"
 #include "LuaBinding/modern/SwapChain.hpp"

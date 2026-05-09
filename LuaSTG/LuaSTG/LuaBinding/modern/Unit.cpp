@@ -83,6 +83,10 @@ namespace {
 
 	int unit_new(lua_State* const vm) {
 		auto handle = luastg::GetUnitPool().create();
+		if (handle.id == 0) {
+			return luaL_error(vm, "UnitPool is full");
+		}
+
 		push_unit(vm, handle);
 		return 1;
 	}
