@@ -566,7 +566,7 @@ namespace luastg {
 	}
 
 
-	
+
 	static int lib_drawSpriteRect(lua_State* L) {
 		validate_render_scope();
 		RenderError re = api_drawSpriteRect(
@@ -750,6 +750,7 @@ namespace luastg {
 
 		MKFUNC(drawSprite),
 		MKFUNC(drawSpriteEx),
+		{ "Sprite", &lib_Sprite },
 		MKFUNC(drawSpriteRect),
 		MKFUNC(drawSprite4V),
 
