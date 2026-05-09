@@ -12,6 +12,8 @@ namespace luastg {
 
 	class UnitPool {
 	public:
+		//unit池最大容量
+		static constexpr size_t kDefaultMaxUnits = 32768;
 		UnitHandle create();
 		bool destroy(UnitHandle handle) noexcept;
 		Unit* get(UnitHandle handle) noexcept;
@@ -30,6 +32,7 @@ namespace luastg {
 		std::vector<Slot> m_slots;
 		std::vector<uint32_t> m_free_list;
 		size_t m_alive_count{};
+		size_t m_max_units{ kDefaultMaxUnits };
 	};
 
 	UnitPool& GetUnitPool() noexcept;
