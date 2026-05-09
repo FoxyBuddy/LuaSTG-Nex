@@ -374,6 +374,7 @@ namespace {
 			m_render_data_begin = m_render_data.size() - 1;
 			m_render_data_view_begin = 0;
 			m_render_data_view_count = 240;
+			/* legacy
 			// object data
 			m_object_data.resize(3600);
 			for (auto& v : m_object_data) {
@@ -382,6 +383,7 @@ namespace {
 			m_object_data_begin = m_object_data.size() - 1;
 			m_object_data_view_begin = 0;
 			m_object_data_view_count = 240;
+			*/
 		}
 
 		void update() {
@@ -398,9 +400,12 @@ namespace {
 			// render data
 			m_render_data_begin = (m_render_data_begin + 1) % m_render_data.size();
 			m_render_data[m_render_data_begin] = LAPP.getFrameRenderStatistics();
+			
+			/*legacy
 			// object data
 			m_object_data_begin = (m_object_data_begin + 1) % m_object_data.size();
 			m_object_data[m_object_data_begin] = LPOOL.DebugGetFrameStatistics();
+			*/
 		}
 
 		static ImPlotPoint getPlotPointZero(const int idx, void*) {
@@ -566,7 +571,9 @@ namespace {
 				ImPlot::EndPlot();
 			}
 		}
-
+		
+		
+		/* legacy
 		static ImPlotPoint getObjectDataAllocHigh(const int idx, void* const user_data) {
 			const auto self = static_cast<FrameStatisticsView*>(user_data);
 			const auto data_index = (self->m_object_data_view_begin + idx) % self->m_object_data.size();
@@ -652,7 +659,7 @@ namespace {
 				ImPlot::EndPlot();
 			}
 		}
-
+		*/
 		void layoutMenuBar() {
 			if (ImGui::BeginMenuBar()) {
 				if (ImGui::BeginMenu("Data")) {
@@ -678,7 +685,7 @@ namespace {
 				layoutMenuBar();
 				layoutFrameData();
 				layoutRenderData();
-				layoutObjectData();
+				//layoutObjectData();
 			}
 			ImGui::End();
 		}
@@ -700,6 +707,7 @@ namespace {
 		bool m_render_data_view_fit_x{ true };
 		bool m_render_data_view_fit_y{ true };
 
+		/* legacy
 		std::vector<luastg::GameObjectPool::FrameStatistics> m_object_data;
 		size_t m_object_data_begin{};
 		size_t m_object_data_view_begin{}; // cached calculated value
@@ -707,6 +715,8 @@ namespace {
 		float m_object_data_view_height{ 256.0f };
 		bool m_object_data_view_fit_x{ true };
 		bool m_object_data_view_fit_y{ true };
+		*/
+
 
 		bool m_paused{};
 		bool m_hide_controls{};

@@ -490,6 +490,83 @@ namespace luastg {
 		}
 		return 0;
 	}
+	
+	
+	
+	static uint8_t clamp_u8(lua_Number value) noexcept {
+		if (value < 0.0) {
+			return 0;
+		}
+		if (value > 255.0) {
+			return 255;
+		}
+		return static_cast<uint8_t>(value);
+	}
+
+	static int lib_Sprite(lua_State* L) {
+		validate_render_scope();
+
+		// New Nex API:
+		// lstg.Renderer.Sprite(
+		//     img,
+		//     x,
+		//     y,
+		//     rot,
+		//     scale_x,
+		//     scale_y,
+		//     blend,
+		//     a,
+		//     r,
+		//     g,
+		//     b,
+		//     z
+		// )
+
+		char const* img = luaL_checkstring(L, 1);
+
+		float const x = static_cast<float>(luaL_optnumber(L, 2, 0.0));
+		float const y = static_cast<float>(luaL_optnumber(L, 3, 0.0));
+		float const rot = static_cast<float>(luaL_optnumber(L, 4, 0.0) * L_DEG_TO_RAD);
+
+		float const scale_x = static_cast<float>(luaL_optnumber(L, 5, 1.0));
+		float const scale_y = static_cast<float>(luaL_optnumber(L, 6, scale_x));
+
+		BlendMode const blend =
+			lua_gettop(L) >= 7 && !lua_isnil(L, 7)
+				? TranslateBlendMode(L, 7)
+				: BlendMode::MulAlpha;
+
+		auto const a = clamp_u8(luaL_optnumber(L, 8, 255.0));
+		auto const r = clamp_u8(luaL_optnumber(L, 9, 255.0));
+		auto const g = clamp_u8(luaL_optnumber(L, 10, 255.0));
+		auto const b = clamp_u8(luaL_optnumber(L, 11, 255.0));
+
+		float const z = static_cast<float>(luaL_optnumber(L, 12, 0.5));
+
+		// core::Color4B 构造顺序是 r, g, b, a。
+		core::Color4B const color(r, g, b, a);
+
+		RenderError re = api_drawSprite(
+			img,
+			x,
+			y,
+			rot,
+			scale_x * LRESMGR().GetGlobalImageScaleFactor(),
+			scale_y * LRESMGR().GetGlobalImageScaleFactor(),
+			blend,
+			color,
+			z
+		);
+
+		if (re == RenderError::SpriteNotFound) {
+			return luaL_error(L, "can't find sprite '%s'", img);
+		}
+
+		return 0;
+	}
+
+
+	
 	static int lib_drawSpriteRect(lua_State* L) {
 		validate_render_scope();
 		RenderError re = api_drawSpriteRect(

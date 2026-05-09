@@ -627,8 +627,8 @@ namespace {
 namespace luastg::binding {
 	void Collision::registerClass(lua_State* const vm) {
 		world().bindLuaState(vm);
-		LPOOL.addCallbacks(&CollisionCallbacks::getInstance());
-
+		// Legacy GameObjectPool callbacks disabled.
+		// LPOOL.addCallbacks(&CollisionCallbacks::getInstance());s
 		luaL_Reg const lib[] = {
 			{ "profile", &l_profile },
 			{ "addCollider", &l_addCollider },

@@ -14,6 +14,9 @@ namespace luastg
 		virtual core::Color4B* GetColor() = 0;
 		virtual double GetHalfSizeX() = 0;
 		virtual double GetHalfSizeY() = 0;
+		virtual double GetScaleX() = 0;
+		virtual double GetScaleY() = 0;
+		virtual void SetScale(double x, double y) = 0;
 		virtual bool IsRectangle() = 0;
 		virtual void RenderRect(float l, float r, float b, float t, float z = 0.5f) = 0;
 		virtual void Render(float x, float y, float rot, float hscale, float vscale, float z = 0.5f) = 0;

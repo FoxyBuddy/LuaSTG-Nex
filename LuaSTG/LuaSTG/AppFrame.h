@@ -10,7 +10,10 @@
 #include "core/Graphics/Font.hpp"
 #include "core/AudioEngine.hpp"
 #include "GameResource/ResourceManager.h"
-#include "GameObject/GameObjectPool.h"
+
+// Legacy GameObjectPool removed from AppFrame.
+// #include "GameObject/GameObjectPool.h"
+
 #include "windows/DirectInput.hpp"
 #include "Debugger/FrameQuery.hpp"
 
@@ -92,7 +95,8 @@ namespace luastg {
 		ResourceMgr m_ResourceMgr;
 
 		// 对象池
-		std::unique_ptr<GameObjectPool> m_GameObjectPool;
+		// Legacy GameObjectPool removed from AppFrame.
+		// std::unique_ptr<GameObjectPool> m_GameObjectPool;
 
 		// Lua虚拟机
 		lua_State* L = nullptr;
@@ -285,7 +289,8 @@ namespace luastg {
 
 		ResourceMgr& GetResourceMgr()noexcept { return m_ResourceMgr; }
 
-		GameObjectPool& GetGameObjectPool()noexcept { return *m_GameObjectPool; }
+		// Legacy GameObjectPool removed from AppFrame.
+		// GameObjectPool& GetGameObjectPool()noexcept { return *m_GameObjectPool; }
 
 		Platform::DirectInput* GetDInput()noexcept { return m_DirectInput.get(); }
 
@@ -345,6 +350,8 @@ namespace luastg {
 	};
 }
 
+
+// Legacy GameObjectPool removed from AppFrame.
+// #define LPOOL (LAPP.GetGameObjectPool())
 #define LAPP (luastg::AppFrame::GetInstance())
-#define LPOOL (LAPP.GetGameObjectPool())
 #define LRES (LAPP.GetResourceMgr())

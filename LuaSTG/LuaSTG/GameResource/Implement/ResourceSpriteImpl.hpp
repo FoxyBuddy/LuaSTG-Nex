@@ -12,6 +12,8 @@ namespace luastg
 		BlendMode m_BlendMode = BlendMode::MulAlpha;
 		double m_HalfSizeX = 0.0;
 		double m_HalfSizeY = 0.0;
+		double m_ScaleX = 1.0;
+		double m_ScaleY = 1.0;
 		core::Color4B m_color[4]{
 			core::Color4B(255, 255, 255, 255),
 			core::Color4B(255, 255, 255, 255),
@@ -41,6 +43,12 @@ namespace luastg
 		}
 		double GetHalfSizeX() override { return m_HalfSizeX; }
 		double GetHalfSizeY() override { return m_HalfSizeY; }
+		double GetScaleX() override { return m_ScaleX; }
+		double GetScaleY() override { return m_ScaleY; }
+		void SetScale(double x, double y) override {
+			m_ScaleX = x;
+			m_ScaleY = y;
+		}
 		bool IsRectangle() override { return m_bRectangle; }
 		void RenderRect(float l, float r, float b, float t, float z) override;
 		void Render(float x, float y, float rot, float hscale, float vscale, float z) override;

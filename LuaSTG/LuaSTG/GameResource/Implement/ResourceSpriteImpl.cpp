@@ -32,7 +32,7 @@ namespace luastg
 		const auto blend = luastg::translateLegacyBlendState(m_BlendMode);
 
 		renderer->setSprite(m_sprite.get());
-		renderer->setTransform(core::Vector2F(x, y), core::Vector2F(hscale, vscale), rot);
+		renderer->setTransform(core::Vector2F(x, y), core::Vector2F(hscale * static_cast<float>(m_ScaleX), vscale * static_cast<float>(m_ScaleY)), rot);
 		renderer->setZ(z);
 		renderer->setLegacyBlendState(blend.vertex_color_blend_state, blend.blend_state);
 		renderer->setColor(m_color[0], m_color[1], m_color[2], m_color[3]);
@@ -47,7 +47,7 @@ namespace luastg
 		const auto blend = luastg::translateLegacyBlendState(blend_);
 
 		renderer->setSprite(m_sprite.get());
-		renderer->setTransform(core::Vector2F(x, y), core::Vector2F(hscale, vscale), rot);
+		renderer->setTransform(core::Vector2F(x, y), core::Vector2F(hscale * static_cast<float>(m_ScaleX), vscale * static_cast<float>(m_ScaleY)), rot);
 		renderer->setZ(z);
 		renderer->setLegacyBlendState(blend.vertex_color_blend_state, blend.blend_state);
 		renderer->setColor(color);

@@ -51,13 +51,19 @@ set(LUASTG_ENGINE_SOURCES
     LuaSTG/Debugger/FrameQuery.hpp
     LuaSTG/Debugger/FrameQuery.cpp
 
-    LuaSTG/GameObject/GameObject.cpp
-    LuaSTG/GameObject/GameObject.hpp
-    LuaSTG/GameObject/GameObjectIntersectDetect.cpp
-    LuaSTG/GameObject/GameObjectBentLaser.cpp
-    LuaSTG/GameObject/GameObjectBentLaser.hpp
-    LuaSTG/GameObject/GameObjectPool.cpp
-    LuaSTG/GameObject/GameObjectPool.h
+    # legacy
+    # LuaSTG/GameObject/GameObject.cpp
+    # LuaSTG/GameObject/GameObject.hpp
+    # LuaSTG/GameObject/GameObjectIntersectDetect.cpp
+    
+    # LuaSTG/GameObject/GameObjectBentLaser.cpp
+    # LuaSTG/GameObject/GameObjectBentLaser.hpp
+    # LuaSTG/GameObject/GameObjectPool.cpp
+    # LuaSTG/GameObject/GameObjectPool.h
+
+    LuaSTG/Unit/Unit.hpp
+    LuaSTG/Unit/UnitPool.hpp
+    LuaSTG/Unit/UnitPool.cpp
 
     LuaSTG/GameResource/LegacyBlendStateHelper.hpp
     LuaSTG/GameResource/ResourceBase.hpp
@@ -109,7 +115,8 @@ set(LUASTG_ENGINE_SOURCES
     LuaSTG/LuaBinding/LuaWrapperMisc.hpp
     LuaSTG/LuaBinding/LW_Archive.cpp
     LuaSTG/LuaBinding/LW_Audio.cpp
-    LuaSTG/LuaBinding/LW_BentLaser.cpp
+    #legacy
+    #LuaSTG/LuaBinding/LW_BentLaser.cpp
     LuaSTG/LuaBinding/LW_Color.cpp
     LuaSTG/LuaBinding/LW_DInput.cpp
     LuaSTG/LuaBinding/LW_FileManager.cpp
@@ -121,7 +128,8 @@ set(LUASTG_ENGINE_SOURCES
     LuaSTG/LuaBinding/LW_StopWatch.cpp
     LuaSTG/LuaBinding/LW_ResourceMgr.cpp
     LuaSTG/LuaBinding/LW_Platform.cpp
-    LuaSTG/LuaBinding/LW_GameObjectManager.cpp
+    #legacy
+    #LuaSTG/LuaBinding/LW_GameObjectManager.cpp
     LuaSTG/LuaBinding/PostEffectShader.hpp
     LuaSTG/LuaBinding/PostEffectShader.cpp
     LuaSTG/LuaBinding/Resource.hpp
@@ -168,12 +176,19 @@ set(LUASTG_ENGINE_SOURCES
     LuaSTG/LuaBinding/modern/SpriteRenderer.cpp
     LuaSTG/LuaBinding/modern/Clipboard.hpp
     LuaSTG/LuaBinding/modern/Clipboard.cpp
-    LuaSTG/LuaBinding/modern/Collision.hpp
-    LuaSTG/LuaBinding/modern/Collision.cpp
+    #legacy
+    #LuaSTG/LuaBinding/modern/Collision.hpp
+    #LuaSTG/LuaBinding/modern/Collision.cpp
+
+    LuaSTG/LuaBinding/modern/Unit.hpp
+    LuaSTG/LuaBinding/modern/Unit.cpp
     LuaSTG/LuaBinding/modern/FileSystemWatcher.hpp
     LuaSTG/LuaBinding/modern/FileSystemWatcher.cpp
-    LuaSTG/LuaBinding/modern/GameObject.hpp
-    LuaSTG/LuaBinding/modern/GameObject.cpp
+    
+    #legacy
+    #LuaSTG/LuaBinding/modern/GameObject.hpp
+    #LuaSTG/LuaBinding/modern/GameObject.cpp
+
     LuaSTG/LuaBinding/modern/Well512.hpp
     LuaSTG/LuaBinding/modern/Well512.cpp
     LuaSTG/LuaBinding/modern/ShellIntegration.hpp
@@ -189,8 +204,9 @@ set(LUASTG_ENGINE_SOURCES
     LuaSTG/LuaBinding/generated/BlendModeX.hpp
     LuaSTG/LuaBinding/generated/ColorMember.cpp
     LuaSTG/LuaBinding/generated/ColorMember.hpp
-    LuaSTG/LuaBinding/generated/GameObjectMember.cpp
-    LuaSTG/LuaBinding/generated/GameObjectMember.hpp
+    #legacy
+    #LuaSTG/LuaBinding/generated/GameObjectMember.cpp
+    #LuaSTG/LuaBinding/generated/GameObjectMember.hpp
 
     LuaSTG/SteamAPI/SteamAPI.cpp
     LuaSTG/SteamAPI/SteamAPI.hpp
