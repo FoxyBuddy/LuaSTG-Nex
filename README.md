@@ -73,9 +73,7 @@ The engine will only support the amd64 (x64) architecture, with DirectX 12 as th
 
 Other branches are listed on the homepage of the [Legacy LuaSTG Engine organization](https://github.com/Legacy-LuaSTG-Engine).
 
-⚠️ **Warning: Highly experimental & undergoing rapid iteration & AIGC + Vibe programming in progress** ⚠️
-
-LuaSTG Nexus will utilize Vibe Coding (aka AI Programming) to increase productivity, to prevent unforseen bugs from AI generating codes, the team will reserve some mamual productivity for verification and debugging in traditional programming methods. We are currently waiting experienced developers excel in graphic programming and having plenty of time.
+⚠️ **Warning: Highly experimental & undergoing rapid iteration** ⚠️
 
 ## Download
 
