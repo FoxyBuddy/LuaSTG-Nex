@@ -8,9 +8,15 @@
 
 LuaSTG Nexus 分支是 [LuaSTG Sub](https://github.com/Legacy-LuaSTG-Engine/LuaSTG-Sub/)  的下一代引擎分支，目标是继承LuaSTG Sub的优良体系并解决当前引擎的历史遗留问题。
 
-LuaSTG Nexus将使用SDL3重写渲染架构实现渲染封装，用于实现自定义渲染管线等新功能。~~你可以理解成国产LuaSTG Evo但更先进~~
+Nexus分支打算从零开始，使用SDL3下的GPU API重写渲染架构，绕过DirectX原生代码来实现新型渲染封装和自定义渲染管线、材质渲染等新功能。~~你可以理解成国产的LuaSTG Flux但更先进~~
+
+引擎将默认只支持amd64（x64）架构，默认渲染后端为DirectX 12，远期规划为支持部分跨平台需求。
 
 其他分支收录在 [Legacy LuaSTG Engine 组织首页](https://github.com/Legacy-LuaSTG-Engine)。
+
+⚠️ **警告：极度实验性 & 快速迭代中 & AIGC + Vibe 编程注意** ⚠️
+
+LuaSTG Nexus将使用AI编程增加编码产能，但为了防止AI产生不可知的引擎Bug，团队将保留一部分人力产能用于古法编程人力核对调试，目前正在招收图形学编程经验强且空闲时间多的大佬。
 
 ## 下载  
 
@@ -41,7 +47,7 @@ LuaSTG Nexus将使用SDL3重写渲染架构实现渲染封装，用于实现自�
 
 Sub曾在2026年3月进入近两个月的无人维护期，在一些开发者的要求和新Data翻新需求下，我们启动了Nexus项目。
 
-Nexus项目团队的平均年龄只有20.5岁，所以在可预见的未来内会有大量的更新。
+Nexus项目社群的平均年龄只有20.2岁，主要开发成员的平均年龄只有20岁，所以在可预见的未来内会有大量的更新。
 
 ## 主要贡献者  
 
@@ -61,9 +67,15 @@ Nexus项目团队的平均年龄只有20.5岁，所以在可预见的未来内�
 
 LuaSTG Nexus, is the next generation engine branch of [LuaSTG Sub](https://github.com/Legacy-LuaSTG-Engine/LuaSTG-Sub/), aim to inherit excellent framework of LuaSTG Sub and resolve historical issues in the current engine.
 
-The Nexus branch will rewrite rendering architecture using SDL3 to encapsulate rendering, enabling new features such as custom scriptable render pipelines. ~~You could think of it as a Chinese version of LuaSTG Evo, but more advanced~~
+The Nexus branch aims to start from scratch and rewrite the rendering architecture using the GPU API in SDL3, bypassing the native DirectX to implement a new rendering wrapper and new features such as a custom rendering pipeline and material rendering. ~~You could treat as Chinese version for LuaSTG Flux but more advanced~~
+
+The engine will only support the amd64 (x64) architecture, with DirectX 12 as the default rendering backend by default; long-term plans include support for certain cross-platform requirements.
 
 Other branches are listed on the homepage of the [Legacy LuaSTG Engine organization](https://github.com/Legacy-LuaSTG-Engine).
+
+⚠️ **Warning: Highly experimental & undergoing rapid iteration & AIGC + Vibe programming in progress** ⚠️
+
+LuaSTG Nexus will utilize Vibe Coding (aka AI Programming) to increase productivity, to prevent unforseen bugs from AI generating codes, the team will reserve some mamual productivity for verification and debugging in traditional programming methods. We are currently waiting experienced developers excel in graphic programming and having plenty of time.
 
 ## Download
 
@@ -94,7 +106,7 @@ See [Build Projects](./BUILD.md).
 
 Sub entered a period of nearly two months without maintenance in March 2026; in response to requests from some developers and the need for a new data overhaul, we launched the Nexus project.
 
-The average age of the Nexus project team is just 20.5, so there will be a large number of updates in the foreseeable future.
+The average age of the Nexus project community is just 20.2, whilst the average age of the core development team is only 20, so we can expect a great many updates in the foreseeable future.
 
 ## Major Contributors
 
