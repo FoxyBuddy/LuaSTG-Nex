@@ -6,6 +6,9 @@
 
 ## 介绍
 
+⚠️ **等待新项目仓库开放** ⚠️
+=====
+
 LuaSTG 救赎计划的引擎部分——LuaSTG Nexus，该分支是[LuaSTG Sub](https://github.com/Legacy-LuaSTG-Engine/LuaSTG-Sub/)的下一代引擎分支。
 
 为了解决存续长达十余年的屎山和历史遗留问题，该分支规划从零开始使用SDL3下的GPU API参考先前版本的引擎实现完全重写渲染架构，绕过DirectX原生代码来实现新型渲染封装和自定义渲染管线、材质渲染等新功能。~~你可以理解成国产的LuaSTG Flux但更先进~~
@@ -14,19 +17,17 @@ LuaSTG 救赎计划的引擎部分——LuaSTG Nexus，该分支是[LuaSTG Sub](
 
 其他的LuaSTG分支收录在 [Legacy LuaSTG Engine 组织首页](https://github.com/Legacy-LuaSTG-Engine)。
 
-⚠️ **警告：极度实验性 & 快速迭代中** ⚠️
-
-当前阶段：爆破原有引擎屎山代码并由@[phsonh](https://github.com/phsonh)重写适用于新data架构的引擎架构，直到旧版引擎的屎山达到承受能力上限；@[穿球鞋的狐狸哥](https://github.com/FoxyBuddy)负责进行SDL3平台MVP，目前已到达混合模式复现。
+当前阶段：爆破原有引擎屎山代码并由@[phsonh](https://github.com/phsonh)重写适用于新data架构的引擎架构并迁移到SDL3，预计将增加对DirectX12的支持。后续将由@[穿球鞋的狐狸哥](https://github.com/FoxyBuddy)负责进行新引擎API的文档编写、核对和测试。
 
 目前正在招收：
  - 2~3名图形学编程经验强且空闲时间多的大佬。
  - 1\~2名拥有较强项目管理能力且能够在未来3\~5年内保持一定强度的维护的大佬。
 
-新社群为了防止对原社群产生较大冲击或造成争议，群聊暂不大面积开放。如果有对新引擎提出想法可私聊邮箱：721597824@qq.com、foxylikesraccoon@gmail.com询问或协助进入新社群。为了不发生大规模的摩擦，新社群与原社群将不会有太多的重合。新社群群规相对更加严苛且思想更加发散，目的是防止重蹈覆辙原社群的问题。
+新社群为了防止对原社群产生较大冲击或造成争议，新社群群聊暂不大面积开放。如果有对新引擎提出想法可私聊邮箱：721597824@qq.com、foxylikesraccoon@gmail.com询问或协助进入新社群。为了不发生大规模的摩擦，新社群与原社群将不会有太多的重合（预计最终将在30%以内）。新社群群规相对更加严苛且思想更加发散，目的是防止重蹈覆辙原社群的问题。
 
 ## 下载  
 
-由于Nexus所在的LuaSTG架构分支：LuaSTG Aether还在开发阶段且THlib也近乎完全重写架构，请敬请期待公测！移步至 [LuaSTG-FutureData](https://github.com/phsonh/LuaSTG-Nex) 查看更多！
+由于Nexus所在的LuaSTG架构分支：LuaSTG Aether还在开发阶段且THlib也近乎完全重写架构，请敬请期待公测！
 
 > THlib：一套东方原作风格的脚本和素材库，包含关卡背景库、自机库、子弹库、符卡系统、关卡组、replay 系统等，可能被更多人更熟悉的是“东方弹幕祀典”  
 
@@ -34,7 +35,7 @@ LuaSTG 救赎计划的引擎部分——LuaSTG Nexus，该分支是[LuaSTG Sub](
 
 ## 引擎主驱动库  
 
-* 图形 API：Direct3D 11 -> SDL3 + Direct3D 12
+* 图形 API：Direct3D 11 -> SDL3 + Direct3D 11/12
 * 音频 API：XAudio2 -> SDL3 + XAudio2
 
 ## 配置要求  
@@ -66,6 +67,9 @@ Nexus项目社群的平均年龄只有20.2岁，主要开发成员的平均年�
 
 ## Introduce
 
+⚠️ **Waiting for new project repo opens** ⚠️
+=====
+
 The engine component of the LuaSTG Redemption Project—LuaSTG Nexus, the next generation engine branch of [LuaSTG Sub](https://github.com/Legacy-LuaSTG-Engine/LuaSTG-Sub/).
 
 To resolve the ‘mountain of shit code’ and legacy issues that have persisted for over a decade, this branch plans to completely rewrite the rendering architecture from scratch using the GPU API under SDL3, drawing on the implementation of previous engine versions. It will bypass the native DirectX code to implement a new rendering wrapper and new features such as a custom rendering pipeline and material rendering. ~~You could think of it as a Chinese version of LuaSTG Flux, but more advanced~~
@@ -74,7 +78,7 @@ The engine will get inspiration from 2D game platform engines written in Lua, su
 
 Other LuaSTG branches are hosted on the [Legacy LuaSTG Engine organisation homepage](https://github.com/Legacy-LuaSTG-Engine).
 
-⚠️ **Warning: Highly experimental & undergoing rapid iteration** ⚠️
+Current stage: Scrapping the existing engine’s messy codebase and having @[phsonh](https://github.com/phsonh) rewrite the engine architecture to suit the new data architecture and migrate to SDL3; support for DirectX12 is expected to be added. Subsequently, @[Fox in Trainers](https://github.com/FoxyBuddy) will be responsible for documenting, reviewing and testing the new engine API.
 
 We are currently recruiting: 
 - 2–3 experts with strong experience in graphics programming and plenty of spare time. 
