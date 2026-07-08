@@ -14,6 +14,7 @@ gantt
         源代码丢失 : milestone, 2012-12-31
     section LuaSTG Plus
         LuaSTG Plus: 2015-01-01, 2019-12-31
+       转到ExPlus : milestone, 2019-12-31
     section LuaSTG Plus V2
         LuaSTG Plus V2: 2022-01-01, 2024-12-31
         疑似停止维护 : milestone, 2024-12-31
